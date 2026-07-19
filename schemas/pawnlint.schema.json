@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.pawnkit.dev/pawnlint/v1/schema.json",
+  "title": "pawnlint standalone configuration",
+  "description": "Configuration for pawnlint.json and .pawnlintrc files.",
+  "type": "object",
+  "required": ["schemaVersion"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "extends": {
+      "type": "array",
+      "items": { "type": "string" },
+      "x-pawnkit-merge": "concat",
+      "description": "Rule sets to load by name or path."
+    },
+    "profile": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "x-pawnkit-merge": "replace",
+      "description": "Target profile used by dialect-specific rules."
+    },
+    "rules": {
+      "type": "object",
+      "x-pawnkit-merge": "concat",
+      "description": "Rule settings keyed by rule ID. Later settings override earlier ones.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["severity"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["error", "warning", "off"] },
+          "options": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ignore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "x-pawnkit-merge": "concat",
+      "description": "Glob patterns excluded from linting."
+    }
+  },
+  "additionalProperties": false
+}

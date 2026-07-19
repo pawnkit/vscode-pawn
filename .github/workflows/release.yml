@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm audit
+      - run: npm test
+      - run: npm run package -- --out vscode-pawn.vsix
+      - run: npm run verify-package -- vscode-pawn.vsix
+      - run: sha256sum vscode-pawn.vsix > vscode-pawn.vsix.sha256
+      - run: gh release create "$GITHUB_REF_NAME" vscode-pawn.vsix vscode-pawn.vsix.sha256 --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a
+        with:
+          subject-path: |
+            vscode-pawn.vsix
+            vscode-pawn.vsix.sha256

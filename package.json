@@ -1,0 +1,248 @@
+{
+  "name": "vscode-pawn",
+  "displayName": "PawnKit",
+  "description": "VS Code client for the PawnKit toolchain",
+  "version": "0.1.0",
+  "publisher": "pawnkit",
+  "preview": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pawnkit/vscode-pawn.git"
+  },
+  "homepage": "https://github.com/pawnkit/vscode-pawn#readme",
+  "bugs": {
+    "url": "https://github.com/pawnkit/vscode-pawn/issues"
+  },
+  "keywords": [
+    "pawn",
+    "open.mp",
+    "samp",
+    "language server",
+    "pawnkit"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Debuggers",
+    "Formatters",
+    "Testing"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:pawn",
+    "workspaceContains:pawn.json",
+    "workspaceContains:pawn.yaml"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "files": [
+    "dist/**",
+    "language-configuration.json",
+    "syntaxes/**",
+    "schemas/**",
+    "README.md",
+    "CAPABILITIES.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "LICENSE.txt"
+  ],
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --external:vscode --platform=node --format=cjs --outfile=dist/extension.js",
+    "check": "tsc --noEmit",
+    "test": "npm run check && esbuild test/*.test.ts --bundle --platform=node --format=cjs --outdir=dist-test && node --test dist-test/*.test.js",
+    "package": "npm run check && npm run build && vsce package",
+    "verify-package": "node test/verify-package.mjs"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/node": "^20.14.2",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.9.2",
+    "adm-zip": "^0.6.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.4.5"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "pawn",
+        "aliases": [
+          "Pawn",
+          "pawn"
+        ],
+        "extensions": [
+          ".pwn",
+          ".inc"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pawn",
+        "scopeName": "source.pawn",
+        "path": "./syntaxes/pawn.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "pawn.restartServer",
+        "title": "Pawn: Restart Language Server"
+      },
+      {
+        "command": "pawn.showOutput",
+        "title": "Pawn: Show Language Server Output"
+      },
+      {
+        "command": "pawn.check",
+        "title": "Pawn: Check Project"
+      },
+      {
+        "command": "pawn.fmt",
+        "title": "Pawn: Format Project"
+      },
+      {
+        "command": "pawn.lint",
+        "title": "Pawn: Lint Project"
+      },
+      {
+        "command": "pawn.doctor",
+        "title": "Pawn: Diagnose Project"
+      }
+    ],
+    "configuration": {
+      "title": "PawnKit",
+      "properties": {
+        "pawn.server.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "description": "Path to pawnlsp. Empty uses PATH."
+        },
+        "pawn.server.trace": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "scope": "window"
+        },
+        "pawn.cli.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "description": "Path to the pawn CLI. Empty uses PATH."
+        },
+        "pawn.debug.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "description": "Path to pawndebug. Empty uses PATH."
+        },
+        "pawn.test.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "description": "Path to pawntest. Empty uses PATH."
+        },
+        "pawn.test.discoveryArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "list",
+            "--output",
+            "json"
+          ],
+          "scope": "resource"
+        }
+      }
+    },
+    "debuggers": [
+      {
+        "type": "pawn",
+        "label": "Pawn Debug",
+        "languages": [
+          "pawn"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "AMX program to launch"
+              },
+              "cwd": {
+                "type": "string",
+                "description": "Working directory for the debug session"
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "pawn",
+            "request": "launch",
+            "name": "Debug Pawn",
+            "program": "${workspaceFolder}/gamemodes/main.amx"
+          }
+        ]
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "pawn",
+        "required": [
+          "task"
+        ],
+        "properties": {
+          "task": {
+            "type": "string",
+            "enum": [
+              "check",
+              "fmt",
+              "lint",
+              "doctor"
+            ]
+          }
+        }
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": [
+          "/pawn.json"
+        ],
+        "url": "./schemas/pawn.schema.json"
+      },
+      {
+        "fileMatch": [
+          "/pawn.lock",
+          "/pawn-lock.json"
+        ],
+        "url": "./schemas/pawn-lock.schema.json"
+      },
+      {
+        "fileMatch": [
+          "/pawnlint.json",
+          "/.pawnlint.json"
+        ],
+        "url": "./schemas/pawnlint.schema.json"
+      }
+    ]
+  }
+}
