@@ -3,7 +3,7 @@ import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
-import { expectedChecksum, extractTarGz, releaseAsset, sha256, ToolDefinition, tools } from "./tooling";
+import { ArchiveEntry, expectedChecksum, extractTarGz, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
 
@@ -61,6 +61,11 @@ export class ToolManager {
     void vscode.window.showInformationMessage(lines.join("\n"), { modal: true });
   }
 
+  includePaths(): string[] {
+    const pawntest = tools.find((tool) => tool.binary === "pawntest");
+    return pawntest ? [join(dirname(this.path(pawntest)), "include")] : [];
+  }
+
   private path(tool: ToolDefinition): string {
     return join(this.context.globalStorageUri.fsPath, "tools", tool.binary, tool.version, executableName(tool.binary));
   }
@@ -74,7 +79,8 @@ export class ToolManager {
     const [archive, checksumDocument] = await Promise.all([download(asset.browser_download_url), text(checksums.browser_download_url)]);
     const expected = expectedChecksum(checksumDocument, asset.name);
     if (!expected || sha256(archive) !== expected) throw new Error(`Checksum verification failed for ${asset.name}.`);
-    const executable = asset.name.endsWith(".zip") ? zipBinary(archive, tool.binary) : extractTarGz(archive, tool.binary);
+    const entries = asset.name.endsWith(".zip") ? zipEntries(archive) : tarGzEntries(archive);
+    const executable = asset.name.endsWith(".zip") ? archiveBinary(entries, tool.binary) : extractTarGz(archive, tool.binary);
     const destination = this.path(tool);
     const temporary = `${destination}.tmp`;
     await mkdir(dirname(destination), { recursive: true });
@@ -82,6 +88,10 @@ export class ToolManager {
     if (process.platform !== "win32") await chmod(temporary, 0o755);
     await rm(destination, { force: true });
     await rename(temporary, destination);
+    if (tool.binary === "pawntest") {
+      await writeIncludes(dirname(destination), entries);
+      await vscode.commands.executeCommand("pawn.restartServer");
+    }
     return destination;
   }
 }
@@ -104,11 +114,31 @@ async function json<T>(url: string): Promise<T> {
   return await response.json() as T;
 }
 
-function zipBinary(data: Uint8Array, binary: string): Buffer {
+function zipEntries(data: Uint8Array): ArchiveEntry[] {
   const archive = new AdmZip(Buffer.from(data));
-  const entry = archive.getEntries().find(({ isDirectory, entryName }) => !isDirectory && [binary, `${binary}.exe`].includes(entryName.split("/").pop() ?? ""));
+  let size = 0;
+  return archive.getEntries().filter(({ isDirectory }) => !isDirectory).map((entry) => {
+    size += entry.header.size;
+    if (size > 200 * 1024 * 1024) throw new Error("release archive is too large");
+    return { name: entry.entryName, data: entry.getData() };
+  });
+}
+
+function archiveBinary(entries: readonly ArchiveEntry[], binary: string): Buffer {
+  const entry = entries.find(({ name }) => [binary, `${binary}.exe`].includes(name.split("/").pop() ?? ""));
   if (!entry) throw new Error(`${binary} was not found in the release archive`);
-  return entry.getData();
+  return entry.data;
+}
+
+async function writeIncludes(root: string, entries: readonly ArchiveEntry[]): Promise<void> {
+  for (const entry of entries) {
+    const parts = entry.name.replace(/\\/g, "/").split("/").filter(Boolean);
+    const include = parts.indexOf("include");
+    if (include < 0 || parts.slice(include).some((part) => part === "." || part === "..")) continue;
+    const destination = join(root, ...parts.slice(include));
+    await mkdir(dirname(destination), { recursive: true });
+    await writeFile(destination, entry.data, { mode: 0o644 });
+  }
 }
 
 function setting(binary: string): string {

@@ -9,9 +9,9 @@ export interface ToolDefinition {
 }
 
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.1.1" },
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.1.2" },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.0" },
-  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.0" },
+  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.1" },
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.1.0" }
 ];
 
@@ -40,7 +40,17 @@ export function sha256(data: Uint8Array): string {
 }
 
 export function extractTarGz(data: Uint8Array, binary: string): Buffer {
+  const entry = tarGzEntries(data).find(({ name }) => [binary, `${binary}.exe`].includes(name.split("/").pop() ?? ""));
+  if (entry) return entry.data;
+  throw new Error(`${binary} was not found in the release archive`);
+}
+
+export interface ArchiveEntry { name: string; data: Buffer; }
+
+export function tarGzEntries(data: Uint8Array): ArchiveEntry[] {
   const archive = gunzipSync(data);
+  if (archive.length > 200 * 1024 * 1024) throw new Error("release archive is too large");
+  const entries: ArchiveEntry[] = [];
   for (let offset = 0; offset + 512 <= archive.length;) {
     const header = archive.subarray(offset, offset + 512);
     if (header.every((byte) => byte === 0)) break;
@@ -48,8 +58,8 @@ export function extractTarGz(data: Uint8Array, binary: string): Buffer {
     const sizeText = header.subarray(124, 136).toString("ascii").replace(/\0.*$/, "").trim();
     const size = Number.parseInt(sizeText || "0", 8);
     if (!Number.isSafeInteger(size) || size < 0 || offset + 512 + size > archive.length) throw new Error("invalid release archive");
-    if (name.split("/").pop() === binary || name.split("/").pop() === `${binary}.exe`) return archive.subarray(offset + 512, offset + 512 + size);
+    if (name && header[156] !== 53) entries.push({ name, data: archive.subarray(offset + 512, offset + 512 + size) });
     offset += 512 + Math.ceil(size / 512) * 512;
   }
-  throw new Error(`${binary} was not found in the release archive`);
+  return entries;
 }

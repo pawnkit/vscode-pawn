@@ -4,13 +4,43 @@
   "scopeName": "source.pawn",
   "patterns": [
     { "include": "#comments" },
+    {
+      "begin": "^(\\s*)(#)\\s*(include|tryinclude)\\b",
+      "beginCaptures": {
+        "2": { "name": "punctuation.definition.directive.pawn" },
+        "3": { "name": "keyword.control.directive.include.pawn" }
+      },
+      "end": "$",
+      "name": "meta.preprocessor.include.pawn",
+      "patterns": [
+        {
+          "match": "(<)([^>]+)(>)",
+          "name": "string.quoted.other.include.pawn",
+          "captures": {
+            "1": { "name": "punctuation.definition.string.begin.pawn" },
+            "3": { "name": "punctuation.definition.string.end.pawn" }
+          }
+        },
+        { "include": "#strings" },
+        { "include": "#comments" }
+      ]
+    },
     { "include": "#strings" },
-    { "match": "^\\s*#\\s*(include|tryinclude|define|if|elseif|else|endif|pragma|error|warning|assert|undef|emit|line|file|endinput)\\b", "name": "keyword.control.directive.pawn" },
+    {
+      "match": "^(\\s*)(#)\\s*(define|if|elseif|else|endif|pragma|error|warning|assert|undef|emit|line|file|endinput)\\b",
+      "captures": {
+        "2": { "name": "punctuation.definition.directive.pawn" },
+        "3": { "name": "keyword.control.directive.pawn" }
+      }
+    },
     { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
     { "match": "\\b(char|defined|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
     { "match": "\\b(const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
+    { "match": "\\b(Float|bool|String|File|DB|DBResult):", "name": "storage.type.tag.pawn" },
+    { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=\\s*\\()", "name": "entity.name.function.pawn" },
     { "match": "\\b(true|false)\\b", "name": "constant.language.pawn" },
-    { "match": "\\b(0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(?:\\.[0-9]*)?(?:[eE][+-]?[0-9]+)?)\\b", "name": "constant.numeric.pawn" }
+    { "match": "\\b(0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(?:\\.[0-9]*)?(?:[eE][+-]?[0-9]+)?)\\b", "name": "constant.numeric.pawn" },
+    { "match": "(?:==|!=|<=|>=|&&|\\|\\||<<|>>|\\+\\+|--|[+\\-*/%<>=!&|^~])", "name": "keyword.operator.pawn" }
   ],
   "repository": {
     "comments": { "patterns": [{ "begin": "/\\*", "end": "\\*/", "name": "comment.block.pawn" }, { "match": "//.*$", "name": "comment.line.double-slash.pawn" }] },

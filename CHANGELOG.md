@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 - 2026-07-20
+
+- Added managed pawntest headers to language-server include paths.
+- Improved highlighting for includes, function calls, tags, and operators.
+
 ## 0.2.1 - 2026-07-20
 
 - Connected Test Explorer to pawntest's JSON discovery output.

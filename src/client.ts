@@ -21,6 +21,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     const options: LanguageClientOptions = {
       documentSelector: [{ scheme: "file", language: "pawn" }],
       outputChannel: this.output,
+      initializationOptions: { includePaths: this.tools.includePaths() },
       workspaceFolder: vscode.workspace.workspaceFolders?.[0],
       synchronize: { configurationSection: "pawn", fileEvents: vscode.workspace.createFileSystemWatcher("**/{pawn.json,pawn.lock,.pawnlint.toml}") }
     };
