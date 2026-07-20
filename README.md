@@ -6,14 +6,19 @@ checks, and the optional debugger and test tools keep their own protocols.
 
 ## Getting started
 
-Install the two main backends:
+When a tool is missing, the extension offers to download a compatible release.
+Downloads require confirmation and are checked against the release checksum.
+Use **PawnKit: Install/Update Tools** to manage them later.
+
+To manage the tools yourself, install them with Go:
 
 ```sh
 go install github.com/pawnkit/pawnlsp/cmd/pawnlsp@latest
 go install github.com/pawnkit/pawnkit-cli/cmd/pawn@latest
 ```
 
-Open a Pawn project or source file. If the tools are not on `PATH`, set
+Open a Pawn project or source file. The extension prefers tools already on
+`PATH`. To use a specific copy, set
 `pawn.server.path` and `pawn.cli.path` in VS Code. `pawn.debug.path` and
 `pawn.test.path` configure the optional `pawndebug` and `pawntest` backends.
 
@@ -26,13 +31,13 @@ the commands shipped by `pawnkit-cli v1`.
 
 ## Troubleshooting
 
-- If a tool is missing, set its path in VS Code settings.
+- Run **PawnKit: Install/Update Tools** to repair or update managed tools.
 - Run `Pawn: Show Language Server Output` for server logs.
 - Run `Pawn: Restart Language Server` after replacing `pawnlsp`.
 - Trust the workspace before running tools or debugging.
 
-The extension has no telemetry and does not download tools. Source files stay
-on your machine unless a backend chosen by you sends them elsewhere.
+The extension has no telemetry. Source files stay on your machine. Managed
+tools come from pinned PawnKit releases on GitHub.
 
 ## Compatibility
 

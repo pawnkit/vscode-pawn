@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -116,6 +116,14 @@
       {
         "command": "pawn.doctor",
         "title": "Pawn: Diagnose Project"
+      },
+      {
+        "command": "pawn.installTools",
+        "title": "PawnKit: Install/Update Tools"
+      },
+      {
+        "command": "pawn.showToolVersions",
+        "title": "PawnKit: Show Tool Versions"
       }
     ],
     "configuration": {
@@ -125,7 +133,7 @@
           "type": "string",
           "default": "",
           "scope": "machine-overridable",
-          "description": "Path to pawnlsp. Empty uses PATH."
+          "description": "Path to pawnlsp. Empty uses PATH or the managed copy."
         },
         "pawn.server.trace": {
           "type": "string",
@@ -141,19 +149,19 @@
           "type": "string",
           "default": "",
           "scope": "machine-overridable",
-          "description": "Path to the pawn CLI. Empty uses PATH."
+          "description": "Path to the pawn CLI. Empty uses PATH or the managed copy."
         },
         "pawn.debug.path": {
           "type": "string",
           "default": "",
           "scope": "machine-overridable",
-          "description": "Path to pawndebug. Empty uses PATH."
+          "description": "Path to pawndebug. Empty uses PATH or the managed copy."
         },
         "pawn.test.path": {
           "type": "string",
           "default": "",
           "scope": "machine-overridable",
-          "description": "Path to pawntest. Empty uses PATH."
+          "description": "Path to pawntest. Empty uses PATH or the managed copy."
         },
         "pawn.test.discoveryArgs": {
           "type": "array",

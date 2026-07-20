@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
-import { candidates, executableName } from "../src/binary";
+import { candidates, executableName, resolveBinary } from "../src/binary";
 
 test("adds the Windows executable suffix", () => {
   assert.equal(executableName("pawnlsp", "win32"), "pawnlsp.exe");
@@ -20,4 +23,18 @@ test("uses PATH entries", () => {
 test("uses the target platform PATH delimiter", () => {
   const result = candidates({ name: "pawn", path: "C:\\one;D:\\two", platform: "win32" });
   assert.deepEqual(result, ["C:\\one\\pawn.exe", "D:\\two\\pawn.exe"]);
+});
+
+test("uses a managed binary after PATH", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "pawn-tools-"));
+  const managed = join(directory, "pawnlsp");
+  await writeFile(managed, "");
+  assert.equal(await resolveBinary({ name: "pawnlsp", path: "", managed, platform: "win32" }), managed);
+});
+
+test("does not replace an invalid configured path with a managed binary", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "pawn-tools-"));
+  const managed = join(directory, "pawnlsp");
+  await writeFile(managed, "");
+  await assert.rejects(resolveBinary({ name: "pawnlsp", configured: "/missing/pawnlsp", managed, platform: "linux" }));
 });

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { resolveBinary } from "./binary";
+import { ToolManager } from "./toolManager";
 
 export class PawnDebugProvider implements vscode.DebugConfigurationProvider {
   async resolveDebugConfiguration(folder: vscode.WorkspaceFolder | undefined, config: vscode.DebugConfiguration): Promise<vscode.DebugConfiguration | undefined> {
@@ -13,11 +13,13 @@ export class PawnDebugProvider implements vscode.DebugConfigurationProvider {
 }
 
 export class PawnDebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
+  constructor(private readonly tools: ToolManager) {}
+
   async createDebugAdapterDescriptor(session: vscode.DebugSession): Promise<vscode.DebugAdapterDescriptor> {
     if (!vscode.workspace.isTrusted) throw new Error("Trust this workspace before debugging Pawn.");
     const folder = session.workspaceFolder;
     const configured = vscode.workspace.getConfiguration("pawn.debug", folder?.uri).get<string>("path");
-    const command = await resolveBinary({ configured, name: "pawndebug", workspace: folder?.uri.fsPath });
+    const command = await this.tools.resolve("pawndebug", configured, folder?.uri.fsPath);
     return new vscode.DebugAdapterExecutable(command, []);
   }
 }

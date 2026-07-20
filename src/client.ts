@@ -1,12 +1,12 @@
 import * as vscode from "vscode";
 import { LanguageClient, LanguageClientOptions, ServerOptions, State, Trace } from "vscode-languageclient/node";
-import { resolveBinary } from "./binary";
+import { ToolManager } from "./toolManager";
 
 export class PawnLanguageClient implements vscode.Disposable {
   private client?: LanguageClient;
   private readonly status: vscode.StatusBarItem;
 
-  constructor(private readonly output: vscode.OutputChannel) {
+  constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
     this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50);
     this.status.command = "pawn.showOutput";
     this.status.name = "Pawn language server";
@@ -16,7 +16,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     if (this.client) return;
     const config = vscode.workspace.getConfiguration("pawn.server");
     const root = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-    const command = await resolveBinary({ configured: config.get<string>("path"), name: "pawnlsp", workspace: root });
+    const command = await this.tools.resolve("pawnlsp", config.get<string>("path"), root);
     const server: ServerOptions = { command, args: [] };
     const options: LanguageClientOptions = {
       documentSelector: [{ scheme: "file", language: "pawn" }],

@@ -13,11 +13,11 @@ test("declares the supported launch contract", () => {
   assert.equal(debuggerContribution.runtime, undefined);
 });
 
-test("exposes only released pawn CLI commands", () => {
+test("exposes released CLI and tool management commands", () => {
   const manifest = JSON.parse(readFileSync(join(process.cwd(), "package.json"), "utf8"));
   const commands = manifest.contributes.commands
     .map((item: { command: string }) => item.command)
     .filter((command: string) => !command.startsWith("pawn.restart") && command !== "pawn.showOutput");
-  assert.deepEqual(commands, ["pawn.check", "pawn.fmt", "pawn.lint", "pawn.doctor"]);
+  assert.deepEqual(commands, ["pawn.check", "pawn.fmt", "pawn.lint", "pawn.doctor", "pawn.installTools", "pawn.showToolVersions"]);
   assert.deepEqual(manifest.contributes.taskDefinitions[0].properties.task.enum, ["check", "fmt", "lint", "doctor"]);
 });

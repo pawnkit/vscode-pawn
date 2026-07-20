@@ -5,6 +5,7 @@ import { posix, win32 } from "node:path";
 export interface ResolveOptions {
   configured?: string;
   name: string;
+  managed?: string;
   platform?: NodeJS.Platform;
   path?: string;
   workspace?: string;
@@ -35,6 +36,13 @@ export async function resolveBinary(options: ResolveOptions): Promise<string> {
     try {
       await access(candidate, mode);
       return candidate;
+    } catch {
+    }
+  }
+  if (options.managed && !options.configured?.trim()) {
+    try {
+      await access(options.managed, mode);
+      return options.managed;
     } catch {
     }
   }

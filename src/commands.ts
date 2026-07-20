@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { resolveBinary } from "./binary";
+import { ToolManager } from "./toolManager";
 
 const commands: Record<string, string[]> = {
   check: ["check"],
@@ -7,7 +7,7 @@ const commands: Record<string, string[]> = {
   doctor: ["doctor"]
 };
 
-export function registerToolCommands(context: vscode.ExtensionContext): void {
+export function registerToolCommands(context: vscode.ExtensionContext, tools: ToolManager): void {
   for (const [name, args] of Object.entries(commands)) {
     context.subscriptions.push(vscode.commands.registerCommand(`pawn.${name}`, async () => {
       if (!vscode.workspace.isTrusted) {
@@ -22,7 +22,7 @@ export function registerToolCommands(context: vscode.ExtensionContext): void {
       }
       try {
         const config = vscode.workspace.getConfiguration("pawn.cli", folder.uri);
-        const executable = await resolveBinary({ configured: config.get<string>("path"), name: "pawn", workspace: folder.uri.fsPath });
+        const executable = await tools.resolve("pawn", config.get<string>("path"), folder.uri.fsPath);
         const terminal = vscode.window.createTerminal({ name: `Pawn: ${name}`, cwd: folder.uri, shellPath: executable, shellArgs: args });
         terminal.show();
       } catch (error) {
@@ -33,6 +33,8 @@ export function registerToolCommands(context: vscode.ExtensionContext): void {
 }
 
 export class PawnTaskProvider implements vscode.TaskProvider {
+  constructor(private readonly tools: ToolManager) {}
+
   async provideTasks(): Promise<vscode.Task[]> {
     if (!vscode.workspace.isTrusted) return [];
     const tasks: vscode.Task[] = [];
@@ -53,7 +55,7 @@ export class PawnTaskProvider implements vscode.TaskProvider {
 
   private async task(folder: vscode.WorkspaceFolder, name: string, args: string[]): Promise<vscode.Task> {
     const configured = vscode.workspace.getConfiguration("pawn.cli", folder.uri).get<string>("path");
-    const executable = await resolveBinary({ configured, name: "pawn", workspace: folder.uri.fsPath });
+    const executable = await this.tools.resolve("pawn", configured, folder.uri.fsPath);
     const execution = new vscode.ProcessExecution(executable, args, { cwd: folder.uri.fsPath });
     return new vscode.Task({ type: "pawn", task: name }, folder, name, "pawn", execution, []);
   }

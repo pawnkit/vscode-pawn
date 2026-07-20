@@ -3,13 +3,15 @@ import { PawnLanguageClient } from "./client";
 import { PawnTaskProvider, registerToolCommands } from "./commands";
 import { PawnDebugAdapterFactory, PawnDebugProvider } from "./debug";
 import { PawnTests } from "./testing";
+import { ToolManager } from "./toolManager";
 
 let languageClient: PawnLanguageClient | undefined;
 let pawnTests: PawnTests | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const output = vscode.window.createOutputChannel("PawnKit", { log: true });
-  languageClient = new PawnLanguageClient(output);
+  const tools = new ToolManager(context, output);
+  languageClient = new PawnLanguageClient(output, tools);
   context.subscriptions.push(output, languageClient);
   context.subscriptions.push(vscode.commands.registerCommand("pawn.restartServer", async () => {
     if (!vscode.workspace.isTrusted) {
@@ -19,13 +21,15 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     await start(languageClient!);
   }));
   context.subscriptions.push(vscode.commands.registerCommand("pawn.showOutput", () => output.show()));
-  context.subscriptions.push(vscode.tasks.registerTaskProvider("pawn", new PawnTaskProvider()));
+  context.subscriptions.push(vscode.tasks.registerTaskProvider("pawn", new PawnTaskProvider(tools)));
   context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider("pawn", new PawnDebugProvider()));
-  context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("pawn", new PawnDebugAdapterFactory()));
-  registerToolCommands(context);
+  context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("pawn", new PawnDebugAdapterFactory(tools)));
+  context.subscriptions.push(vscode.commands.registerCommand("pawn.installTools", () => tools.chooseAndInstall()));
+  context.subscriptions.push(vscode.commands.registerCommand("pawn.showToolVersions", () => tools.showVersions()));
+  registerToolCommands(context, tools);
   const startTrustedFeatures = async (): Promise<void> => {
     if (!pawnTests) {
-      pawnTests = new PawnTests(output);
+      pawnTests = new PawnTests(output, tools);
       context.subscriptions.push(pawnTests);
     }
     await start(languageClient!);

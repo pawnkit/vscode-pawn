@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { isAbsolute, relative, resolve, sep } from "node:path";
-import { resolveBinary } from "./binary";
+import { ToolManager } from "./toolManager";
 import { run } from "./process";
 
 interface TestDescription { id: string; label: string; file?: string; line?: number; }
@@ -9,27 +9,27 @@ interface TestList { schemaVersion: number; tests: TestDescription[]; }
 export class PawnTests implements vscode.Disposable {
   private readonly controller = vscode.tests.createTestController("pawnTests", "Pawn Tests");
 
-  constructor(private readonly output: vscode.OutputChannel) {
-    this.controller.refreshHandler = () => this.discover();
+  constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
+    this.controller.refreshHandler = () => this.discover(true);
     const profile = this.controller.createRunProfile("Run", vscode.TestRunProfileKind.Run, (request, token) => this.execute(request, token));
     profile.isDefault = true;
-    void this.discover();
+    void this.discover(false);
   }
 
   dispose(): void { this.controller.dispose(); }
 
-  private async tool(): Promise<{ executable: string; cwd: string }> {
+  private async tool(prompt = true): Promise<{ executable: string; cwd: string }> {
     const folder = vscode.workspace.workspaceFolders?.[0];
     if (!folder) throw new Error("Open a workspace to use Pawn tests.");
     const configured = vscode.workspace.getConfiguration("pawn.test", folder.uri).get<string>("path");
-    return { executable: await resolveBinary({ configured, name: "pawntest", workspace: folder.uri.fsPath }), cwd: folder.uri.fsPath };
+    return { executable: await this.tools.resolve("pawntest", configured, folder.uri.fsPath, prompt), cwd: folder.uri.fsPath };
   }
 
-  private async discover(): Promise<void> {
+  private async discover(prompt = true): Promise<void> {
     this.controller.items.replace([]);
     if (!vscode.workspace.isTrusted || !vscode.workspace.workspaceFolders?.length) return;
     try {
-      const { executable, cwd } = await this.tool();
+      const { executable, cwd } = await this.tool(prompt);
       const args = vscode.workspace.getConfiguration("pawn.test").get<string[]>("discoveryArgs", ["list", "--output", "json"]);
       const result = await run(executable, args, cwd);
       if (result.code !== 0) throw new Error(result.stderr.trim() || `pawntest exited with ${result.code}`);
