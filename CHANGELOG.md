@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-07-20
+
+- Connected Test Explorer to pawntest's JSON discovery output.
+
 ## 0.2.0 - 2026-07-20
 
 - Added guided installation and updates for PawnKit command-line tools.

@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -169,8 +169,8 @@
             "type": "string"
           },
           "default": [
-            "list",
-            "--output",
+            "--list",
+            "--format",
             "json"
           ],
           "scope": "resource"

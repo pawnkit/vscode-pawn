@@ -30,7 +30,7 @@ export class PawnTests implements vscode.Disposable {
     if (!vscode.workspace.isTrusted || !vscode.workspace.workspaceFolders?.length) return;
     try {
       const { executable, cwd } = await this.tool(prompt);
-      const args = vscode.workspace.getConfiguration("pawn.test").get<string[]>("discoveryArgs", ["list", "--output", "json"]);
+      const args = vscode.workspace.getConfiguration("pawn.test").get<string[]>("discoveryArgs", ["--list", "--format", "json"]);
       const result = await run(executable, args, cwd);
       if (result.code !== 0) throw new Error(result.stderr.trim() || `pawntest exited with ${result.code}`);
       const document = JSON.parse(result.stdout) as TestList;
