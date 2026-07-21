@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.3 - 2026-07-21
+
+- Fixed hover and signature help for variadic functions such as `printf`.
+
 ## 0.8.2 - 2026-07-21
 
 - Fixed the managed-include regression test on Windows.
