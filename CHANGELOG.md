@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.5 - 2026-07-21
+
+- Updated pawnlsp for concise returns, macro-defined tags, and nested quoted includes.
+
 ## 0.9.4 - 2026-07-21
 
 - Listed the formatter and linter versions provided by pawnlsp.
