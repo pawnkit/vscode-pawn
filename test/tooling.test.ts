@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { expectedChecksum, releaseAsset, sha256 } from "../src/tooling";
+import { expectedChecksum, managedIncludeRoot, releaseAsset, sha256 } from "../src/tooling";
 
 test("selects the release archive for the current target", () => {
   const assets = [
@@ -15,4 +15,10 @@ test("matches GoReleaser checksums", () => {
   const digest = sha256(Buffer.from("pawn"));
   assert.equal(expectedChecksum(`${digest}  pawn-linux-amd64.tar.gz\n`, "pawn-linux-amd64.tar.gz"), digest);
   assert.equal(expectedChecksum(`${digest}  another-file.zip\n`, "pawn-linux-amd64.tar.gz"), undefined);
+});
+
+test("uses managed includes only after extraction", () => {
+  const executable = "/tools/pawntest/v1.1.2/pawntest";
+  assert.equal(managedIncludeRoot(executable, (path) => path === "/tools/pawntest/v1.1.2/include/pawntest.inc"), "/tools/pawntest/v1.1.2/include");
+  assert.equal(managedIncludeRoot(executable, () => false), undefined);
 });

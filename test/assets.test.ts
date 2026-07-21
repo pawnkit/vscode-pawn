@@ -23,10 +23,11 @@ test("extension assets contain valid JSON", () => {
 
 test("grammar includes Pawn-specific syntax", () => {
   const grammar = readJSON("syntaxes/pawn.tmLanguage.json") as {
-    patterns: Array<{ begin?: string; match?: string }>;
+    patterns: Array<{ begin?: string; match?: string; name?: string }>;
   };
-  const patterns = grammar.patterns.flatMap(({ begin, match }) => [begin ?? "", match ?? ""]).join("\n");
+  const patterns = grammar.patterns.flatMap(({ begin, match, name }) => [begin ?? "", match ?? "", name ?? ""]).join("\n");
 
   assert.match(patterns, /tryinclude/);
   assert.match(patterns, /endinput/);
+  assert.match(patterns, /keyword\.control\.directive\.conditional\.pawn/);
 });

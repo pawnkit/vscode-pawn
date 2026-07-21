@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1 - 2026-07-21
+
+- Restored managed pawntest includes after reloading the window.
+- Fixed hover and references selecting symbols from the wrong included file.
+- Highlighted `defined` in preprocessor conditions.
+
 ## 0.8.0 - 2026-07-21
 
 - Added incoming and outgoing call hierarchy through pawnlsp.

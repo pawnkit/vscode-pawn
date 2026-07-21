@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { dirname, join } from "node:path";
 import { gunzipSync } from "node:zlib";
 
 export interface ToolDefinition {
@@ -9,13 +10,18 @@ export interface ToolDefinition {
 }
 
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.8.0" },
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.8.1" },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.0" },
   { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" },
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
 ];
 
 export interface ReleaseAsset { name: string; browser_download_url: string; }
+
+export function managedIncludeRoot(executable: string, exists: (path: string) => boolean): string | undefined {
+  const root = join(dirname(executable), "include");
+  return exists(join(root, "pawntest.inc")) ? root : undefined;
+}
 
 export function releaseAsset(assets: readonly ReleaseAsset[], platform: NodeJS.Platform, arch: string): ReleaseAsset | undefined {
   const os = platform === "win32" ? "windows" : platform === "darwin" ? "darwin" : platform === "linux" ? "linux" : "";

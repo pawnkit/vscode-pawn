@@ -44,6 +44,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     this.client = client;
     this.updateStatus(State.Starting);
     await client.start();
+    await this.updateIncludePaths();
   }
 
   async stop(): Promise<void> {

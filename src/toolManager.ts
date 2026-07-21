@@ -1,9 +1,10 @@
 import * as vscode from "vscode";
+import { existsSync } from "node:fs";
 import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
-import { ArchiveEntry, expectedChecksum, extractTarGz, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
+import { ArchiveEntry, expectedChecksum, extractTarGz, managedIncludeRoot, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
 
@@ -76,7 +77,9 @@ export class ToolManager implements vscode.Disposable {
 
   includePaths(): string[] {
     const pawntest = tools.find((tool) => tool.binary === "pawntest");
-    return pawntest ? [join(dirname(this.path(pawntest)), "include")] : [];
+    if (!pawntest) return [];
+    const root = managedIncludeRoot(this.path(pawntest), existsSync);
+    return root ? [root] : [];
   }
 
   private path(tool: ToolDefinition): string {

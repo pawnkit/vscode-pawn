@@ -42,7 +42,8 @@
       }
     },
     { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
-    { "match": "\\b(char|defined|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
+    { "match": "\\bdefined\\b", "name": "keyword.control.directive.conditional.pawn" },
+    { "match": "\\b(char|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
     { "match": "\\b(const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
     {
       "match": "^(\\s*)(?:(public|stock|static|native|forward)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
