@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.7 - 2026-07-21
+
+- Updated pawndebug with expandable array variables and correct references.
+
 ## 0.2.6 - 2026-07-21
 
 - Grouped discovered tests by file with file and workspace run actions.
