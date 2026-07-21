@@ -7,8 +7,13 @@ import { ArchiveEntry, expectedChecksum, extractTarGz, releaseAsset, sha256, tar
 
 interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
 
-export class ToolManager {
+export class ToolManager implements vscode.Disposable {
+  private readonly installEmitter = new vscode.EventEmitter<string>();
+  readonly onDidInstall = this.installEmitter.event;
+
   constructor(private readonly context: vscode.ExtensionContext, private readonly output: vscode.LogOutputChannel) {}
+
+  dispose(): void { this.installEmitter.dispose(); }
 
   async resolve(binary: string, configured: string | undefined, workspace: string | undefined, prompt = true): Promise<string> {
     const definition = tools.find((tool) => tool.binary === binary);
@@ -29,6 +34,14 @@ export class ToolManager {
     }
     if (choice !== "Install") throw new Error(`${definition.label} is not installed.`);
     return this.install(definition);
+  }
+
+  async find(binary: string, configured: string | undefined, workspace: string | undefined): Promise<string | undefined> {
+    try {
+      return await this.resolve(binary, configured, workspace, false);
+    } catch {
+      return undefined;
+    }
   }
 
   async chooseAndInstall(): Promise<void> {
@@ -92,6 +105,7 @@ export class ToolManager {
       await writeIncludes(dirname(destination), entries);
       await vscode.commands.executeCommand("pawn.restartServer");
     }
+    this.installEmitter.fire(tool.binary);
     return destination;
   }
 }
@@ -131,10 +145,11 @@ function archiveBinary(entries: readonly ArchiveEntry[], binary: string): Buffer
 }
 
 async function writeIncludes(root: string, entries: readonly ArchiveEntry[]): Promise<void> {
+  await rm(join(root, "include"), { recursive: true, force: true });
   for (const entry of entries) {
     const parts = entry.name.replace(/\\/g, "/").split("/").filter(Boolean);
     const include = parts.indexOf("include");
-    if (include < 0 || parts.slice(include).some((part) => part === "." || part === "..")) continue;
+    if (include < 0 || !parts.at(-1)?.endsWith(".inc") || parts.slice(include).some((part) => part === "." || part === "..")) continue;
     const destination = join(root, ...parts.slice(include));
     await mkdir(dirname(destination), { recursive: true });
     await writeFile(destination, entry.data, { mode: 0o644 });

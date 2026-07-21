@@ -27,7 +27,15 @@
     },
     { "include": "#strings" },
     {
-      "match": "^(\\s*)(#)\\s*(define|if|elseif|else|endif|pragma|error|warning|assert|undef|emit|line|file|endinput)\\b",
+      "match": "^(\\s*)(#)\\s*(define)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
+      "captures": {
+        "2": { "name": "punctuation.definition.directive.pawn" },
+        "3": { "name": "keyword.control.directive.pawn" },
+        "4": { "name": "entity.name.function.preprocessor.pawn" }
+      }
+    },
+    {
+      "match": "^(\\s*)(#)\\s*(if|elseif|else|endif|pragma|error|warning|assert|undef|emit|line|file|endinput)\\b",
       "captures": {
         "2": { "name": "punctuation.definition.directive.pawn" },
         "3": { "name": "keyword.control.directive.pawn" }
@@ -36,8 +44,17 @@
     { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
     { "match": "\\b(char|defined|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
     { "match": "\\b(const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
-    { "match": "\\b(Float|bool|String|File|DB|DBResult):", "name": "storage.type.tag.pawn" },
+    {
+      "match": "^(\\s*)(?:(public|stock|static|native|forward)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
+      "captures": {
+        "2": { "name": "storage.type.pawn" },
+        "3": { "name": "entity.name.type.tag.pawn" },
+        "4": { "name": "entity.name.function.definition.pawn" }
+      }
+    },
+    { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=:(?!:))", "name": "entity.name.type.tag.pawn" },
     { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=\\s*\\()", "name": "entity.name.function.pawn" },
+    { "match": "\\b[A-Z][A-Z0-9_]{2,}\\b", "name": "constant.other.pawn" },
     { "match": "\\b(true|false)\\b", "name": "constant.language.pawn" },
     { "match": "\\b(0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(?:\\.[0-9]*)?(?:[eE][+-]?[0-9]+)?)\\b", "name": "constant.numeric.pawn" },
     { "match": "(?:==|!=|<=|>=|&&|\\|\\||<<|>>|\\+\\+|--|[+\\-*/%<>=!&|^~])", "name": "keyword.operator.pawn" }

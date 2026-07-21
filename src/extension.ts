@@ -12,7 +12,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const output = vscode.window.createOutputChannel("PawnKit", { log: true });
   const tools = new ToolManager(context, output);
   languageClient = new PawnLanguageClient(output, tools);
-  context.subscriptions.push(output, languageClient);
+  context.subscriptions.push(output, tools, languageClient);
   context.subscriptions.push(vscode.commands.registerCommand("pawn.restartServer", async () => {
     if (!vscode.workspace.isTrusted) {
       void vscode.window.showWarningMessage("Trust this workspace before starting PawnKit tools.");

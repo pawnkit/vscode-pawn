@@ -8,21 +8,32 @@ interface TestList { schemaVersion: number; tests: TestDescription[]; }
 
 export class PawnTests implements vscode.Disposable {
   private readonly controller = vscode.tests.createTestController("pawnTests", "Pawn Tests");
+  private readonly subscriptions: vscode.Disposable[] = [];
 
   constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
     this.controller.refreshHandler = () => this.discover(true);
     const profile = this.controller.createRunProfile("Run", vscode.TestRunProfileKind.Run, (request, token) => this.execute(request, token));
     profile.isDefault = true;
+    this.subscriptions.push(this.tools.onDidInstall((binary) => {
+      if (binary === "pawntest") void this.discover(false);
+    }));
     void this.discover(false);
   }
 
-  dispose(): void { this.controller.dispose(); }
+  dispose(): void {
+    this.subscriptions.forEach((subscription) => subscription.dispose());
+    this.controller.dispose();
+  }
 
   private async tool(prompt = true): Promise<{ executable: string; cwd: string }> {
     const folder = vscode.workspace.workspaceFolders?.[0];
     if (!folder) throw new Error("Open a workspace to use Pawn tests.");
     const configured = vscode.workspace.getConfiguration("pawn.test", folder.uri).get<string>("path");
-    return { executable: await this.tools.resolve("pawntest", configured, folder.uri.fsPath, prompt), cwd: folder.uri.fsPath };
+    const executable = prompt
+      ? await this.tools.resolve("pawntest", configured, folder.uri.fsPath)
+      : await this.tools.find("pawntest", configured, folder.uri.fsPath);
+    if (!executable) throw new ToolUnavailableError();
+    return { executable, cwd: folder.uri.fsPath };
   }
 
   private async discover(prompt = true): Promise<void> {
@@ -47,6 +58,7 @@ export class PawnTests implements vscode.Disposable {
         this.controller.items.add(item);
       }
     } catch (error) {
+      if (error instanceof ToolUnavailableError) return;
       this.output.appendLine(`Test discovery: ${String(error)}`);
     }
   }
@@ -76,6 +88,8 @@ export class PawnTests implements vscode.Disposable {
     }
   }
 }
+
+class ToolUnavailableError extends Error {}
 
 function testURI(cwd: string, file: string): vscode.Uri | undefined {
   const candidate = resolve(cwd, file);
