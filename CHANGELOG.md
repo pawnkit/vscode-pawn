@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 - 2026-07-21
+
+- Added range formatting, format-on-type, and parameter-name hints through pawnlsp.
+
 ## 0.5.0 - 2026-07-21
 
 - Added symbol highlights, syntax-aware folding, and structural selection through pawnlsp.

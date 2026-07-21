@@ -3,7 +3,7 @@
 | UI capability | Backend |
 |---|---|
 | Diagnostics, workspace navigation, hover, completion, signature help, semantic highlighting, rename, folding, edits | `pawnlsp` over LSP |
-| Formatting and code actions | `pawnlsp` over LSP |
+| Whole-file, range, and format-on-type formatting; code actions | `pawnlsp` over LSP |
 | Check, format, lint, and doctor | `pawn` commands |
 | Debug launch | `pawndebug` over DAP |
 | Test discovery and execution | `pawntest` JSON protocol |
