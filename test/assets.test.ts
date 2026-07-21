@@ -30,4 +30,5 @@ test("grammar includes Pawn-specific syntax", () => {
   assert.match(patterns, /tryinclude/);
   assert.match(patterns, /endinput/);
   assert.match(patterns, /keyword\.control\.directive\.conditional\.pawn/);
+  assert.match(patterns, /defined.*A-Za-z_@/);
 });

@@ -31,7 +31,7 @@
       "captures": {
         "2": { "name": "punctuation.definition.directive.pawn" },
         "3": { "name": "keyword.control.directive.pawn" },
-        "4": { "name": "entity.name.function.preprocessor.pawn" }
+        "4": { "name": "entity.name.constant.preprocessor.pawn" }
       }
     },
     {
@@ -42,6 +42,13 @@
       }
     },
     { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
+    {
+      "match": "\\b(defined)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
+      "captures": {
+        "1": { "name": "keyword.control.directive.conditional.pawn" },
+        "2": { "name": "entity.name.constant.preprocessor.pawn" }
+      }
+    },
     { "match": "\\bdefined\\b", "name": "keyword.control.directive.conditional.pawn" },
     { "match": "\\b(char|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
     { "match": "\\b(const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },

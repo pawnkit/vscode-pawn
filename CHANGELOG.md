@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.0 - 2026-07-21
+
+- Added source hover for `#define` macros.
+- Highlighted macro names after `defined`.
+
 ## 0.8.3 - 2026-07-21
 
 - Fixed hover and signature help for variadic functions such as `printf`.

@@ -10,7 +10,7 @@ export interface ToolDefinition {
 }
 
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.8.2" },
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.0" },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.0" },
   { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" },
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
