@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.7 - 2026-07-21
+
+- Updated pawnlsp to remove false PawnPlus tag warnings from closed files.
+
 ## 0.9.6 - 2026-07-21
 
 - Updated pawnlsp to resolve project-relative includes and sparse macro parameters.
