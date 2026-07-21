@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5 - 2026-07-21
+
+- Replaced raw JSON test output with concise result lines.
+
 ## 0.2.4 - 2026-07-21
 
 - Updated pawnlsp so pawntest macros are not reported as duplicate functions.

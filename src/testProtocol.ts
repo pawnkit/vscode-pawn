@@ -20,3 +20,10 @@ export function parseTestReport(value: string): TestReport {
   if (!report || !Array.isArray(report.results)) throw new Error("invalid pawntest report");
   return report;
 }
+
+export function formatTestResult(result: TestResult, label: string): string {
+  const lines = [`${result.status.toUpperCase()} ${label} (${result.duration_ms}ms)`];
+  if (result.message) lines.push(...result.message.split(/\r?\n/).map((line) => `  ${line}`));
+  for (const warning of result.warnings ?? []) lines.push(`  warning: ${warning}`);
+  return `${lines.join("\r\n")}\r\n`;
+}

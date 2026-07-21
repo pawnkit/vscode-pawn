@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { isAbsolute, relative, resolve, sep } from "node:path";
 import { ToolManager } from "./toolManager";
 import { run } from "./process";
-import { parseTestReport, testRunArgs } from "./testProtocol";
+import { formatTestResult, parseTestReport, testRunArgs } from "./testProtocol";
 
 interface TestDescription { id: string; label: string; file?: string; line?: number; }
 interface TestList { schemaVersion: number; tests: TestDescription[]; }
@@ -81,7 +81,6 @@ export class PawnTests implements vscode.Disposable {
       const controller = new AbortController();
       const subscription = token.onCancellationRequested(() => controller.abort());
       const result = await run(executable, args, cwd, 1024 * 1024, controller.signal).finally(() => subscription.dispose());
-      execution.appendOutput(result.stdout + result.stderr);
       const report = parseTestReport(result.stdout);
       const results = new Map(report.results.map((item) => [item.name, item]));
       for (const item of selected) {
@@ -90,6 +89,7 @@ export class PawnTests implements vscode.Disposable {
           execution.errored(item, new vscode.TestMessage(`pawntest did not report ${item.id}`));
           continue;
         }
+        execution.appendOutput(formatTestResult(test, item.label), undefined, item);
         const message = new vscode.TestMessage(test.message || test.warnings?.join("\n") || `pawntest reported ${test.status}`);
         switch (test.status) {
           case "pass": execution.passed(item, test.duration_ms); break;
@@ -99,6 +99,7 @@ export class PawnTests implements vscode.Disposable {
           default: execution.failed(item, message, test.duration_ms);
         }
       }
+      if (result.stderr.trim()) execution.appendOutput(`${result.stderr.trim()}\r\n`);
     } catch (error) {
       selected.forEach((item) => token.isCancellationRequested ? execution.skipped(item) : execution.errored(item, new vscode.TestMessage(String(error))));
     } finally {
