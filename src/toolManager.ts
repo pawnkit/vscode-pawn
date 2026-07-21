@@ -4,7 +4,7 @@ import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
-import { ArchiveEntry, expectedChecksum, extractTarGz, managedIncludeRoot, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
+import { ArchiveEntry, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
 
@@ -88,6 +88,12 @@ export class ToolManager implements vscode.Disposable {
 
   private async install(tool: ToolDefinition): Promise<string> {
     if (!vscode.workspace.isTrusted) throw new Error("Trust this workspace before installing PawnKit tools.");
+    const destination = this.path(tool);
+    const temporary = `${destination}.tmp`;
+    if (managedToolReady(tool, destination, existsSync)) {
+      await rm(temporary, { force: true });
+      return destination;
+    }
     const release = await json<GitHubRelease>(`https://api.github.com/repos/pawnkit/${tool.repository}/releases/tags/${tool.version}`);
     const asset = releaseAsset(release.assets, process.platform, process.arch);
     const checksums = release.assets.find((candidate) => candidate.name === "checksums.txt");
@@ -97,8 +103,6 @@ export class ToolManager implements vscode.Disposable {
     if (!expected || sha256(archive) !== expected) throw new Error(`Checksum verification failed for ${asset.name}.`);
     const entries = asset.name.endsWith(".zip") ? zipEntries(archive) : tarGzEntries(archive);
     const executable = asset.name.endsWith(".zip") ? archiveBinary(entries, tool.binary) : extractTarGz(archive, tool.binary);
-    const destination = this.path(tool);
-    const temporary = `${destination}.tmp`;
     await mkdir(dirname(destination), { recursive: true });
     await writeFile(temporary, executable, { mode: 0o755 });
     if (process.platform !== "win32") await chmod(temporary, 0o755);

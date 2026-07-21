@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { join } from "node:path";
 import test from "node:test";
-import { expectedChecksum, managedIncludeRoot, releaseAsset, sha256 } from "../src/tooling";
+import { expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, ToolDefinition } from "../src/tooling";
 
 test("selects the release archive for the current target", () => {
   const assets = [
@@ -23,4 +23,19 @@ test("uses managed includes only after extraction", () => {
   const executable = join(root, "pawntest");
   assert.equal(managedIncludeRoot(executable, (path) => path === join(root, "include", "pawntest.inc")), join(root, "include"));
   assert.equal(managedIncludeRoot(executable, () => false), undefined);
+});
+
+test("does not replace a complete managed installation", () => {
+  const executable = join("tools", "pawnlsp", "v0.9.2", "pawnlsp.exe");
+  const tool: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.2" };
+  assert.equal(managedToolReady(tool, executable, (path) => path === executable), true);
+  assert.equal(managedToolReady(tool, executable, () => false), false);
+});
+
+test("repairs pawntest when managed includes are missing", () => {
+  const root = join("tools", "pawntest", "v1.1.2");
+  const executable = join(root, "pawntest.exe");
+  const tool: ToolDefinition = { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" };
+  assert.equal(managedToolReady(tool, executable, (path) => path === executable), false);
+  assert.equal(managedToolReady(tool, executable, (path) => path === executable || path === join(root, "include", "pawntest.inc")), true);
 });

@@ -23,6 +23,11 @@ export function managedIncludeRoot(executable: string, exists: (path: string) =>
   return exists(join(root, "pawntest.inc")) ? root : undefined;
 }
 
+export function managedToolReady(tool: ToolDefinition, executable: string, exists: (path: string) => boolean): boolean {
+  if (!exists(executable)) return false;
+  return tool.binary !== "pawntest" || managedIncludeRoot(executable, exists) !== undefined;
+}
+
 export function releaseAsset(assets: readonly ReleaseAsset[], platform: NodeJS.Platform, arch: string): ReleaseAsset | undefined {
   const os = platform === "win32" ? "windows" : platform === "darwin" ? "darwin" : platform === "linux" ? "linux" : "";
   const architectures = arch === "x64" ? ["amd64", "x86_64"] : arch === "arm64" ? ["arm64", "aarch64"] : [];

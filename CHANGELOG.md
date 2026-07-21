@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.3 - 2026-07-21
+
+- Avoided replacing an already-current tool while Windows is using it.
+
 ## 0.9.2 - 2026-07-21
 
 - Updated pawnlsp for PawnPlus syntax and conditional include support.
