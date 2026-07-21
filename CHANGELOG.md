@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0 - 2026-07-21
+
+- Added diagnostics for unopened project files.
+- Added source comments and API usage details to completion and hover text.
+
 ## 0.6.0 - 2026-07-21
 
 - Added range formatting, format-on-type, and parameter-name hints through pawnlsp.
