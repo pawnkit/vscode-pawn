@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 - 2026-07-21
+
+- Added project and API completion through pawnlsp.
+- Added parameter hints while writing function calls.
+- Added semantic highlighting for project and API symbols.
+
 ## 0.2.9 - 2026-07-21
 
 - Updated pawnlsp so include paths open on Ctrl+click and show the resolved file on hover.
