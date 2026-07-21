@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 - 2026-07-21
+
+- Added symbol highlights, syntax-aware folding, and structural selection through pawnlsp.
+
 ## 0.4.0 - 2026-07-21
 
 - Added workspace symbol search and cross-file navigation through pawnlsp.
