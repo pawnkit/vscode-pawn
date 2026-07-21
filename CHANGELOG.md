@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.6 - 2026-07-21
+
+- Grouped discovered tests by file with file and workspace run actions.
+
 ## 0.2.5 - 2026-07-21
 
 - Replaced raw JSON test output with concise result lines.

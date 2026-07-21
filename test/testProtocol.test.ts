@@ -3,8 +3,11 @@ import test from "node:test";
 import { formatTestResult, parseTestReport, testRunArgs } from "../src/testProtocol";
 
 test("builds an exact pawntest run filter", () => {
-  assert.deepEqual(testRunArgs(["test_adds", "test_value[0]"]), [
-    "test", "--format", "json", "--run", "^(?:test_adds|test_value\\[0\\])$",
+  assert.deepEqual(testRunArgs([
+    { name: "test_adds", file: "tests/math.test.pwn" },
+    { name: "test_value[0]", file: "tests/math.test.pwn" },
+  ]), [
+    "test", "tests/math.test.pwn", "--format", "json", "--run", "^(?:test_adds|test_value\\[0\\])$",
   ]);
 });
 

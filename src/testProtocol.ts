@@ -1,5 +1,6 @@
 export interface TestResult {
   name: string;
+  source?: string;
   status: "pass" | "fail" | "skip" | "error" | "xfail" | "xpass";
   message?: string;
   warnings?: string[];
@@ -10,9 +11,16 @@ export interface TestReport {
   results: TestResult[];
 }
 
-export function testRunArgs(ids: readonly string[]): string[] {
-  const alternatives = ids.map((id) => id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  return ["test", "--format", "json", "--run", `^(?:${alternatives.join("|")})$`];
+export interface TestTarget {
+  name: string;
+  file?: string;
+}
+
+export function testRunArgs(tests: readonly TestTarget[]): string[] {
+  const names = [...new Set(tests.map((test) => test.name))];
+  const files = [...new Set(tests.flatMap((test) => test.file ? [test.file] : []))];
+  const alternatives = names.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  return ["test", ...files, "--format", "json", "--run", `^(?:${alternatives.join("|")})$`];
 }
 
 export function parseTestReport(value: string): TestReport {
