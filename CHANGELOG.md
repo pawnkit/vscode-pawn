@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.2 - 2026-07-21
+
+- Fixed the managed-include regression test on Windows.
+
 ## 0.8.1 - 2026-07-21
 
 - Restored managed pawntest includes after reloading the window.

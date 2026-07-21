@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { join } from "node:path";
 import test from "node:test";
 import { expectedChecksum, managedIncludeRoot, releaseAsset, sha256 } from "../src/tooling";
 
@@ -18,7 +19,8 @@ test("matches GoReleaser checksums", () => {
 });
 
 test("uses managed includes only after extraction", () => {
-  const executable = "/tools/pawntest/v1.1.2/pawntest";
-  assert.equal(managedIncludeRoot(executable, (path) => path === "/tools/pawntest/v1.1.2/include/pawntest.inc"), "/tools/pawntest/v1.1.2/include");
+  const root = join("tools", "pawntest", "v1.1.2");
+  const executable = join(root, "pawntest");
+  assert.equal(managedIncludeRoot(executable, (path) => path === join(root, "include", "pawntest.inc")), join(root, "include"));
   assert.equal(managedIncludeRoot(executable, () => false), undefined);
 });
