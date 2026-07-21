@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2 - 2026-07-21
+
+- Updated pawnlsp for PawnPlus syntax and conditional include support.
+
 ## 0.9.1 - 2026-07-21
 
 - Updated pawnlsp to remove duplicate diagnostics and shorten enum-member hover.
