@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - 2026-07-21
+
+- Added workspace symbol search and cross-file navigation through pawnlsp.
+- Added local and workspace symbol renaming.
+
 ## 0.3.0 - 2026-07-21
 
 - Added project and API completion through pawnlsp.

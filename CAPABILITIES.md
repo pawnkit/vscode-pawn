@@ -2,7 +2,7 @@
 
 | UI capability | Backend |
 |---|---|
-| Diagnostics, navigation, hover, completion, signature help, semantic highlighting, edits | `pawnlsp` over LSP |
+| Diagnostics, workspace navigation, hover, completion, signature help, semantic highlighting, rename, edits | `pawnlsp` over LSP |
 | Formatting and code actions | `pawnlsp` over LSP |
 | Check, format, lint, and doctor | `pawn` commands |
 | Debug launch | `pawndebug` over DAP |

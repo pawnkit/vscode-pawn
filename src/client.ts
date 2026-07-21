@@ -29,7 +29,13 @@ export class PawnLanguageClient implements vscode.Disposable {
       outputChannel: this.output,
       initializationOptions: { includePaths: this.tools.includePaths() },
       workspaceFolder: vscode.workspace.workspaceFolders?.[0],
-      synchronize: { configurationSection: "pawn", fileEvents: vscode.workspace.createFileSystemWatcher("**/{pawn.json,pawn.lock,.pawnlint.toml}") }
+      synchronize: {
+        configurationSection: "pawn",
+        fileEvents: [
+          vscode.workspace.createFileSystemWatcher("**/{pawn.json,pawn.lock,.pawnlint.toml}"),
+          vscode.workspace.createFileSystemWatcher("**/*.{pwn,inc}")
+        ]
+      }
     };
     const client = new LanguageClient("pawn", "Pawn Language Server", server, options);
     const trace = config.get<string>("trace", "off");
