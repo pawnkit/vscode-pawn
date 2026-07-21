@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1 - 2026-07-21
+
+- Updated pawnlsp to remove duplicate diagnostics and shorten enum-member hover.
+
 ## 0.9.0 - 2026-07-21
 
 - Added source hover for `#define` macros.
