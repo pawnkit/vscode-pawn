@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0 - 2026-07-21
+
+- Added incoming and outgoing call hierarchy through pawnlsp.
+- Improved completion ordering and kept local variables within their function.
+
 ## 0.7.0 - 2026-07-21
 
 - Added diagnostics for unopened project files.
