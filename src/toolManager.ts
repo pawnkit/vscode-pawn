@@ -4,7 +4,7 @@ import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
-import { ArchiveEntry, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
+import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
 
@@ -63,7 +63,7 @@ export class ToolManager implements vscode.Disposable {
   }
 
   async showVersions(): Promise<void> {
-    const lines = await Promise.all(tools.map(async (tool) => {
+    const managed = await Promise.all(tools.map(async (tool) => {
       try {
         const resolved = await resolveBinary({ name: tool.binary, managed: this.path(tool) });
         const version = resolved === this.path(tool) ? tool.version : "external version";
@@ -72,6 +72,7 @@ export class ToolManager implements vscode.Disposable {
         return `${tool.label}: not installed`;
       }
     }));
+    const lines = managed.concat(bundledTools.map((tool) => `${tool.label}: ${tool.version} (provided by ${tool.provider})`));
     void vscode.window.showInformationMessage(lines.join("\n"), { modal: true });
   }
 

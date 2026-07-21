@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.4 - 2026-07-21
+
+- Listed the formatter and linter versions provided by pawnlsp.
+
 ## 0.9.3 - 2026-07-21
 
 - Avoided replacing an already-current tool while Windows is using it.

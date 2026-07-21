@@ -16,6 +16,17 @@ export const tools: readonly ToolDefinition[] = [
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
 ];
 
+export interface BundledToolDefinition {
+  label: string;
+  provider: string;
+  version: string;
+}
+
+export const bundledTools: readonly BundledToolDefinition[] = [
+  { label: "Pawn formatter", provider: "pawnlsp", version: "v1.3.0" },
+  { label: "Pawn linter", provider: "pawnlsp", version: "v1.0.4" }
+];
+
 export interface ReleaseAsset { name: string; browser_download_url: string; }
 
 export function managedIncludeRoot(executable: string, exists: (path: string) => boolean): string | undefined {

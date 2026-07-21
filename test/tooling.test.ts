@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { join } from "node:path";
 import test from "node:test";
-import { expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, ToolDefinition } from "../src/tooling";
+import { bundledTools, expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, ToolDefinition } from "../src/tooling";
 
 test("selects the release archive for the current target", () => {
   const assets = [
@@ -38,4 +38,11 @@ test("repairs pawntest when managed includes are missing", () => {
   const tool: ToolDefinition = { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" };
   assert.equal(managedToolReady(tool, executable, (path) => path === executable), false);
   assert.equal(managedToolReady(tool, executable, (path) => path === executable || path === join(root, "include", "pawntest.inc")), true);
+});
+
+test("reports tools bundled with the language server", () => {
+  assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
+    ["Pawn formatter", "pawnlsp"],
+    ["Pawn linter", "pawnlsp"]
+  ]);
 });
