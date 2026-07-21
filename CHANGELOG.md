@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.9 - 2026-07-21
+
+- Updated pawnlsp to resolve more existing include layouts and reduce workspace diagnostic noise.
+
 ## 0.9.8 - 2026-07-21
 
 - Updated pawnlsp to ignore dependencies and inactive files in workspace diagnostics.

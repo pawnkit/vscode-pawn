@@ -26,8 +26,8 @@ test("uses managed includes only after extraction", () => {
 });
 
 test("does not replace a complete managed installation", () => {
-  const executable = join("tools", "pawnlsp", "v0.9.6", "pawnlsp.exe");
-  const tool: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.6" };
+  const executable = join("tools", "pawnlsp", "v0.9.7", "pawnlsp.exe");
+  const tool: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.7" };
   assert.equal(managedToolReady(tool, executable, (path) => path === executable), true);
   assert.equal(managedToolReady(tool, executable, () => false), false);
 });
@@ -41,10 +41,10 @@ test("repairs pawntest when managed includes are missing", () => {
 });
 
 test("reports tools bundled with the language server", () => {
-  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.9.6");
+  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.9.7");
   assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
     ["Pawn formatter", "pawnlsp"],
     ["Pawn linter", "pawnlsp"]
   ]);
-  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.0.6");
+  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.0.7");
 });
