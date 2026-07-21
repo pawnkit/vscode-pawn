@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.8 - 2026-07-21
+
+- Added richer hover details and API documentation links through pawnlsp.
+- Updated managed include paths without restarting the language server.
+
 ## 0.2.7 - 2026-07-21
 
 - Updated pawndebug with expandable array variables and correct references.

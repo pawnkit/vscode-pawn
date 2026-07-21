@@ -5,11 +5,17 @@ import { ToolManager } from "./toolManager";
 export class PawnLanguageClient implements vscode.Disposable {
   private client?: LanguageClient;
   private readonly status: vscode.StatusBarItem;
+  private readonly toolSubscription: vscode.Disposable;
 
   constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
     this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50);
     this.status.command = "pawn.showOutput";
     this.status.name = "Pawn language server";
+    this.toolSubscription = this.tools.onDidInstall((binary) => {
+      if (binary === "pawntest") {
+        void this.updateIncludePaths().catch((error: unknown) => this.output.appendLine(`Could not update include paths: ${String(error)}`));
+      }
+    });
   }
 
   async start(): Promise<void> {
@@ -48,7 +54,15 @@ export class PawnLanguageClient implements vscode.Disposable {
 
   dispose(): void {
     void this.stop();
+    this.toolSubscription.dispose();
     this.status.dispose();
+  }
+
+  private async updateIncludePaths(): Promise<void> {
+    if (!this.client || this.client.state !== State.Running) return;
+    await this.client.sendNotification("workspace/didChangeConfiguration", {
+      settings: { pawn: { includePaths: this.tools.includePaths() } }
+    });
   }
 
   private updateStatus(state: State): void {

@@ -103,7 +103,6 @@ export class ToolManager implements vscode.Disposable {
     await rename(temporary, destination);
     if (tool.binary === "pawntest") {
       await writeIncludes(dirname(destination), entries);
-      await vscode.commands.executeCommand("pawn.restartServer");
     }
     this.installEmitter.fire(tool.binary);
     return destination;
