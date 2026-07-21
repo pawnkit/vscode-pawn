@@ -10,7 +10,7 @@ export interface ToolDefinition {
 }
 
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.5" },
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.6" },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.0" },
   { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" },
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
@@ -24,7 +24,7 @@ export interface BundledToolDefinition {
 
 export const bundledTools: readonly BundledToolDefinition[] = [
   { label: "Pawn formatter", provider: "pawnlsp", version: "v1.3.0" },
-  { label: "Pawn linter", provider: "pawnlsp", version: "v1.0.5" }
+  { label: "Pawn linter", provider: "pawnlsp", version: "v1.0.6" }
 ];
 
 export interface ReleaseAsset { name: string; browser_download_url: string; }

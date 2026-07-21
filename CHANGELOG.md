@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.8 - 2026-07-21
+
+- Updated pawnlsp to ignore dependencies and inactive files in workspace diagnostics.
+
 ## 0.9.7 - 2026-07-21
 
 - Updated pawnlsp to remove false PawnPlus tag warnings from closed files.
