@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.9 - 2026-07-21
+
+- Updated pawnlsp so include paths open on Ctrl+click and show the resolved file on hover.
+
 ## 0.2.8 - 2026-07-21
 
 - Added richer hover details and API documentation links through pawnlsp.
