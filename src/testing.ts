@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { isAbsolute, relative, resolve, sep } from "node:path";
 import { ToolManager } from "./toolManager";
 import { run } from "./process";
+import { parseTestReport, testRunArgs } from "./testProtocol";
 
 interface TestDescription { id: string; label: string; file?: string; line?: number; }
 interface TestList { schemaVersion: number; tests: TestDescription[]; }
@@ -71,7 +72,8 @@ export class PawnTests implements vscode.Disposable {
     selected.forEach((item) => execution.started(item));
     try {
       const { executable, cwd } = await this.tool();
-      const args = ["test", "--output", "json", ...selected.flatMap((item) => ["--test", item.id])];
+      if (selected.length === 0) return;
+      const args = testRunArgs(selected.map((item) => item.id));
       if (token.isCancellationRequested) {
         selected.forEach((item) => execution.skipped(item));
         return;
@@ -80,7 +82,23 @@ export class PawnTests implements vscode.Disposable {
       const subscription = token.onCancellationRequested(() => controller.abort());
       const result = await run(executable, args, cwd, 1024 * 1024, controller.signal).finally(() => subscription.dispose());
       execution.appendOutput(result.stdout + result.stderr);
-      selected.forEach((item) => result.code === 0 ? execution.passed(item) : execution.failed(item, new vscode.TestMessage(`pawntest exited with ${result.code}`)));
+      const report = parseTestReport(result.stdout);
+      const results = new Map(report.results.map((item) => [item.name, item]));
+      for (const item of selected) {
+        const test = results.get(item.id);
+        if (!test) {
+          execution.errored(item, new vscode.TestMessage(`pawntest did not report ${item.id}`));
+          continue;
+        }
+        const message = new vscode.TestMessage(test.message || test.warnings?.join("\n") || `pawntest reported ${test.status}`);
+        switch (test.status) {
+          case "pass": execution.passed(item, test.duration_ms); break;
+          case "xfail": execution.passed(item, test.duration_ms); break;
+          case "skip": execution.skipped(item); break;
+          case "error": execution.errored(item, message, test.duration_ms); break;
+          default: execution.failed(item, message, test.duration_ms);
+        }
+      }
     } catch (error) {
       selected.forEach((item) => token.isCancellationRequested ? execution.skipped(item) : execution.errored(item, new vscode.TestMessage(String(error))));
     } finally {
