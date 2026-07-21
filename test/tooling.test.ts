@@ -26,8 +26,8 @@ test("uses managed includes only after extraction", () => {
 });
 
 test("does not replace a complete managed installation", () => {
-  const executable = join("tools", "pawnlsp", "v0.9.3", "pawnlsp.exe");
-  const tool: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.3" };
+  const executable = join("tools", "pawnlsp", "v0.9.4", "pawnlsp.exe");
+  const tool: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.4" };
   assert.equal(managedToolReady(tool, executable, (path) => path === executable), true);
   assert.equal(managedToolReady(tool, executable, () => false), false);
 });

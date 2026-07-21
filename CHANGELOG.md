@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.6 - 2026-07-21
+
+- Updated pawnlsp to resolve project-relative includes and sparse macro parameters.
+
 ## 0.9.5 - 2026-07-21
 
 - Updated pawnlsp for concise returns, macro-defined tags, and nested quoted includes.
