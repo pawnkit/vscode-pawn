@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.10 - 2026-07-22
+
+- Updated pawnlsp to handle large include graphs without exhausting memory.
+
 ## 0.9.9 - 2026-07-21
 
 - Updated pawnlsp to resolve more existing include layouts and reduce workspace diagnostic noise.
