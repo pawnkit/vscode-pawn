@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.11 - 2026-07-22
+
+- Updated pawnlsp for compiler constants, YSI iterators, `void:` functions, and backslash include formatting.
+
 ## 0.9.10 - 2026-07-22
 
 - Updated pawnlsp to handle large include graphs without exhausting memory.
