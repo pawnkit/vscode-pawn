@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.16 - 2026-07-23
+
+- Added pickup API data through pawnlsp.
+
 ## 0.10.15 - 2026-07-23
 
 - Added player-class API data through pawnlsp.
