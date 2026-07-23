@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0 - 2026-07-23
+
+- Select managed tool versions from the tested PawnKit release set.
+
 ## 0.11.1 - 2026-07-23
 
 - Updated pawnlsp with managed-include lifecycle coverage.

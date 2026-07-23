@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { join } from "node:path";
 import test from "node:test";
-import { bundledTools, expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, ToolDefinition, tools } from "../src/tooling";
+import { bundledTools, expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, testedReleaseSet, ToolDefinition, tools } from "../src/tooling";
 
 test("selects the release archive for the current target", () => {
   const assets = [
@@ -41,9 +41,10 @@ test("repairs pawntest when managed includes are missing", () => {
 });
 
 test("reports tools bundled with the language server", () => {
-  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.26.1");
-  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.1.1");
-  assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.1.3");
+  assert.equal(testedReleaseSet.id, "toolchain-preview-2026-07-23");
+  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.26.2");
+  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.1.3");
+  assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.1.4");
   assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
     ["Pawn formatter", "pawnlsp"],
     ["Pawn linter", "pawnlsp"]
