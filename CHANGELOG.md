@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.6 - 2026-07-23
+
+- Updated pawnlsp so diagnostics can link to related source locations.
+
 ## 0.10.5 - 2026-07-23
 
 - Added a project-configuration action to health findings.
