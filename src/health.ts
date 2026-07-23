@@ -9,6 +9,7 @@ export class ProjectHealth implements vscode.Disposable {
   private readonly subscriptions: vscode.Disposable[] = [];
   private timer?: NodeJS.Timeout;
   private findings: DoctorFinding[] = [];
+  private folder?: vscode.WorkspaceFolder;
   private generation = 0;
 
   constructor(private readonly tools: ToolManager) {
@@ -17,6 +18,7 @@ export class ProjectHealth implements vscode.Disposable {
       vscode.workspace.onDidSaveTextDocument(() => this.schedule()),
       vscode.workspace.onDidCreateFiles(() => this.schedule()),
       vscode.workspace.onDidDeleteFiles(() => this.schedule()),
+      vscode.window.onDidChangeActiveTextEditor(() => this.schedule(0)),
       tools.onDidInstall((binary) => { if (binary === "pawn") this.schedule(); })
     );
     this.schedule(0);
@@ -31,6 +33,7 @@ export class ProjectHealth implements vscode.Disposable {
   refresh(): void { this.schedule(0); }
 
   async showDetails(): Promise<void> {
+    const folder = this.folder;
     if (this.findings.length === 0) {
       void vscode.window.showInformationMessage("PawnKit found no project issues.");
       return;
@@ -40,9 +43,12 @@ export class ProjectHealth implements vscode.Disposable {
       description: finding.path,
       detail: finding.remediation?.message ?? `${finding.source}: ${finding.id}`,
       finding
-    })), { title: "Pawn project health", placeHolder: "Choose an issue for actions", matchOnDescription: true, matchOnDetail: true });
+    })), {
+      title: vscode.workspace.workspaceFolders?.length === 1 ? "Pawn project health" : `Pawn project health: ${folder?.name ?? "workspace"}`,
+      placeHolder: "Choose an issue for actions", matchOnDescription: true, matchOnDetail: true
+    });
     if (!selected) return;
-    await this.showActions(selected.finding);
+    await this.showActions(selected.finding, folder);
   }
 
   private schedule(delay = 500): void {
@@ -52,11 +58,14 @@ export class ProjectHealth implements vscode.Disposable {
 
   private async inspect(): Promise<void> {
     const generation = ++this.generation;
-    const folder = vscode.workspace.workspaceFolders?.[0];
+    const active = vscode.window.activeTextEditor?.document.uri;
+    const folder = active ? vscode.workspace.getWorkspaceFolder(active) ?? vscode.workspace.workspaceFolders?.[0] : vscode.workspace.workspaceFolders?.[0];
     if (!folder || !vscode.workspace.isTrusted) {
+      this.folder = undefined;
       this.status.hide();
       return;
     }
+    this.folder = folder;
     if (!await hasManifest(folder)) {
       this.findings = [];
       this.show("$(tools) Pawn: Set up", "Set up this workspace as a PawnKit project", "pawn.setupProject");
@@ -87,7 +96,7 @@ export class ProjectHealth implements vscode.Disposable {
     }
   }
 
-  private async showActions(finding: DoctorFinding): Promise<void> {
+  private async showActions(finding: DoctorFinding, folder: vscode.WorkspaceFolder | undefined): Promise<void> {
     const actions: { label: string; action: "open" | "copy" | "doctor" }[] = [];
     if (finding.path) actions.push({ label: "$(go-to-file) Open file", action: "open" });
     if (finding.remediation?.command) actions.push({ label: "$(copy) Copy suggested command", action: "copy" });
@@ -103,7 +112,6 @@ export class ProjectHealth implements vscode.Disposable {
       void vscode.window.showInformationMessage("Suggested command copied.");
       return;
     }
-    const folder = vscode.workspace.workspaceFolders?.[0];
     if (selected.action === "open" && folder && finding.path) {
       const target = resolve(folder.uri.fsPath, finding.path);
       const path = relative(folder.uri.fsPath, target);

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.3 - 2026-07-23
+
+- Added include-path and preprocessor directive completion through pawnlsp.
+- Made project health follow the active folder in multi-root workspaces.
+
 ## 0.10.2 - 2026-07-23
 
 - Updated pawnlsp for clickable lint and analysis documentation.
