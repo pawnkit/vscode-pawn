@@ -42,7 +42,7 @@ test("repairs pawntest when managed includes are missing", () => {
 
 test("reports tools bundled with the language server", () => {
   assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.11.1");
-  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.1.0");
+  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.1.1");
   assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.1.3");
   assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
     ["Pawn formatter", "pawnlsp"],

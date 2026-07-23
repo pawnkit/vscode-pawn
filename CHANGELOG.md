@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.5 - 2026-07-23
+
+- Added a project-configuration action to health findings.
+- Updated to PawnKit CLI `v1.1.1`, which removes unsupported dependency commands from health findings.
+
 ## 0.10.4 - 2026-07-23
 
 - Updated pawnlsp for bounded completion and project-first ranking.

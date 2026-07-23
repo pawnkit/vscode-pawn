@@ -97,14 +97,20 @@ export class ProjectHealth implements vscode.Disposable {
   }
 
   private async showActions(finding: DoctorFinding, folder: vscode.WorkspaceFolder | undefined): Promise<void> {
-    const actions: { label: string; action: "open" | "copy" | "doctor" }[] = [];
+    const actions: { label: string; action: "open" | "config" | "copy" | "doctor" }[] = [];
     if (finding.path) actions.push({ label: "$(go-to-file) Open file", action: "open" });
+    if (folder && await findManifest(folder)) actions.push({ label: "$(json) Open project configuration", action: "config" });
     if (finding.remediation?.command) actions.push({ label: "$(copy) Copy suggested command", action: "copy" });
     actions.push({ label: "$(terminal) Run Pawn doctor", action: "doctor" });
     const selected = await vscode.window.showQuickPick(actions, { title: finding.message, placeHolder: finding.remediation?.message });
     if (!selected) return;
     if (selected.action === "doctor") {
       await vscode.commands.executeCommand("pawn.doctor");
+      return;
+    }
+    if (selected.action === "config" && folder) {
+      const manifest = await findManifest(folder);
+      if (manifest) await vscode.window.showTextDocument(manifest);
       return;
     }
     if (selected.action === "copy" && finding.remediation?.command) {
@@ -137,13 +143,18 @@ export class ProjectHealth implements vscode.Disposable {
 }
 
 async function hasManifest(folder: vscode.WorkspaceFolder): Promise<boolean> {
+  return await findManifest(folder) !== undefined;
+}
+
+async function findManifest(folder: vscode.WorkspaceFolder): Promise<vscode.Uri | undefined> {
   for (const name of ["pawn.json", "pawn.yaml", "pawn.yml"]) {
     try {
-      await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder.uri, name));
-      return true;
+      const uri = vscode.Uri.joinPath(folder.uri, name);
+      await vscode.workspace.fs.stat(uri);
+      return uri;
     } catch {
       // Try the next supported filename.
     }
   }
-  return false;
+  return undefined;
 }
