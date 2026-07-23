@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.4 - 2026-07-23
+
+- Updated pawnlsp for bounded completion and project-first ranking.
+
 ## 0.10.3 - 2026-07-23
 
 - Added include-path and preprocessor directive completion through pawnlsp.
