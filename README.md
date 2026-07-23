@@ -12,7 +12,11 @@ Use **PawnKit: Install/Update Tools** to manage them later.
 
 Use **PawnKit: Set Up Project** in an existing Pawn workspace to choose its
 entry file and target. The extension finds conventional include directories
-and creates `pawn.json` through the PawnKit CLI.
+and lets you add other folders before creating `pawn.json` through the PawnKit
+CLI.
+
+The Pawn status item shows project health. Select it to review findings, open
+affected files, or copy a suggested command.
 
 To manage the tools yourself, install them with Go:
 

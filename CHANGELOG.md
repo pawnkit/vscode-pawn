@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1 - 2026-07-23
+
+- Added an in-editor project-health view with file and remediation actions.
+- Added custom include directory selection during project setup.
+- Added a one-time prompt when managed tools have pinned updates available.
+
 ## 0.10.0 - 2026-07-23
 
 - Added guided PawnKit project setup.

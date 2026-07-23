@@ -16,6 +16,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   const health = new ProjectHealth(tools);
   languageClient = new PawnLanguageClient(output, tools);
   context.subscriptions.push(output, tools, health, languageClient);
+  context.subscriptions.push(vscode.commands.registerCommand("pawn.showProjectHealth", () => health.showDetails()));
   context.subscriptions.push(vscode.commands.registerCommand("pawn.setupProject", async () => {
     try {
       if (await setupProject(tools)) {
@@ -50,6 +51,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       context.subscriptions.push(pawnTests);
     }
     await start(languageClient!);
+    void tools.promptForUpdates().catch((error: unknown) => output.warn(`Could not check managed tool updates: ${String(error)}`));
   };
   if (vscode.workspace.isTrusted) {
     await startTrustedFeatures();

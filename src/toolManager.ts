@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { existsSync } from "node:fs";
-import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
@@ -62,6 +62,27 @@ export class ToolManager implements vscode.Disposable {
     void vscode.window.showInformationMessage("PawnKit tools are ready.");
   }
 
+  async promptForUpdates(): Promise<void> {
+    if (!vscode.workspace.isTrusted) return;
+    const updates = await this.managedUpdates();
+    if (updates.length === 0) return;
+    const key = `managed-update:${updates.map((tool) => `${tool.binary}@${tool.version}`).join(",")}`;
+    if (this.context.globalState.get<boolean>(key)) return;
+    await this.context.globalState.update(key, true);
+    const names = updates.map((tool) => tool.label).join(", ");
+    const choice = await vscode.window.showInformationMessage(`${names} ${updates.length === 1 ? "has" : "have"} an update available.`, "Update");
+    if (choice !== "Update") return;
+    await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" }, async (progress) => {
+      for (const [index, tool] of updates.entries()) {
+        progress.report({ message: tool.label, increment: 100 / updates.length });
+        await this.install(tool);
+        this.output.info(`Installed ${tool.binary} ${tool.version}`);
+        if (index === updates.length - 1) progress.report({ increment: 0 });
+      }
+    });
+    void vscode.window.showInformationMessage("PawnKit tools are up to date.");
+  }
+
   async showVersions(): Promise<void> {
     const managed = await Promise.all(tools.map(async (tool) => {
       try {
@@ -85,6 +106,21 @@ export class ToolManager implements vscode.Disposable {
 
   private path(tool: ToolDefinition): string {
     return join(this.context.globalStorageUri.fsPath, "tools", tool.binary, tool.version, executableName(tool.binary));
+  }
+
+  private async managedUpdates(): Promise<ToolDefinition[]> {
+    const updates: ToolDefinition[] = [];
+    for (const tool of tools) {
+      const executable = this.path(tool);
+      if (managedToolReady(tool, executable, existsSync)) continue;
+      try {
+        const versions = await readdir(dirname(dirname(executable)), { withFileTypes: true });
+        if (versions.some((entry) => entry.isDirectory() && entry.name !== tool.version)) updates.push(tool);
+      } catch {
+        // No managed versions have been installed.
+      }
+    }
+    return updates;
   }
 
   private async install(tool: ToolDefinition): Promise<string> {

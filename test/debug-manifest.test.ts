@@ -18,6 +18,6 @@ test("exposes released CLI and tool management commands", () => {
   const commands = manifest.contributes.commands
     .map((item: { command: string }) => item.command)
     .filter((command: string) => !command.startsWith("pawn.restart") && command !== "pawn.showOutput");
-  assert.deepEqual(commands, ["pawn.setupProject", "pawn.check", "pawn.fmt", "pawn.lint", "pawn.doctor", "pawn.installTools", "pawn.showToolVersions"]);
+  assert.deepEqual(commands, ["pawn.setupProject", "pawn.showProjectHealth", "pawn.check", "pawn.fmt", "pawn.lint", "pawn.doctor", "pawn.installTools", "pawn.showToolVersions"]);
   assert.deepEqual(manifest.contributes.taskDefinitions[0].properties.task.enum, ["check", "fmt", "lint", "doctor"]);
 });

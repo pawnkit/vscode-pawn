@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -96,6 +96,10 @@
       {
         "command": "pawn.setupProject",
         "title": "PawnKit: Set Up Project"
+      },
+      {
+        "command": "pawn.showProjectHealth",
+        "title": "PawnKit: Show Project Health"
       },
       {
         "command": "pawn.restartServer",

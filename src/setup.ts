@@ -30,7 +30,8 @@ export async function setupProject(tools: ToolManager): Promise<boolean> {
     { label: "SA-MP", value: "samp", description: "Use the SA-MP target profile" }
   ], { title: "Choose the project target" });
   if (!target) return false;
-  const includes = await existingDirectories(folder, ["include", "includes", "pawno/include"]);
+  const includes = await chooseIncludes(folder);
+  if (!includes) return false;
   const config = vscode.workspace.getConfiguration("pawn.cli", folder.uri);
   const executable = await tools.resolve("pawn", config.get<string>("path"), folder.uri.fsPath);
   const args = ["init", "--project", folder.uri.fsPath, "--entry", workspacePath(folder, entry), "--target", target.value];
@@ -78,6 +79,40 @@ async function existingDirectories(folder: vscode.WorkspaceFolder, candidates: s
     }
   }
   return found;
+}
+
+async function chooseIncludes(folder: vscode.WorkspaceFolder): Promise<string[] | undefined> {
+  const conventional = await existingDirectories(folder, ["include", "includes", "pawno/include"]);
+  const custom = { label: "$(folder-opened) Choose other folders…", value: "", custom: true };
+  const selected = await vscode.window.showQuickPick([
+    ...conventional.map((value) => ({ label: value, value, picked: true, custom: false })),
+    custom
+  ], {
+    title: "Choose include directories",
+    placeHolder: conventional.length === 0 ? "Choose other folders, or continue without includes" : "Detected include directories are selected",
+    canPickMany: true
+  });
+  if (!selected) return undefined;
+  const includes = selected.filter((item) => !item.custom).map((item) => item.value);
+  if (!selected.some((item) => item.custom)) return includes;
+  const chosen = await vscode.window.showOpenDialog({
+    title: "Choose include directories",
+    defaultUri: folder.uri,
+    canSelectFiles: false,
+    canSelectFolders: true,
+    canSelectMany: true,
+    openLabel: "Use directories"
+  });
+  if (!chosen) return undefined;
+  for (const uri of chosen) {
+    const value = workspacePath(folder, uri);
+    if (value === ".." || value.startsWith("../") || value === "") {
+      void vscode.window.showErrorMessage("Include directories must be inside the workspace.");
+      return undefined;
+    }
+    if (!includes.includes(value)) includes.push(value);
+  }
+  return includes;
 }
 
 function workspacePath(folder: vscode.WorkspaceFolder, uri: vscode.Uri): string {
