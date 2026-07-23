@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.13 - 2026-07-23
+
+- Added per-player object API data through pawnlsp.
+
 ## 0.10.12 - 2026-07-23
 
 - Added object material and editing API data through pawnlsp.
