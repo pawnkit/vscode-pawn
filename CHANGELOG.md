@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.18 - 2026-07-23
+
+- Added HTTP API data through pawnlsp.
+
 ## 0.10.17 - 2026-07-23
 
 - Added gang-zone API data through pawnlsp.
