@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.11 - 2026-07-23
+
+- Added core global-object API data through pawnlsp.
+
 ## 0.10.10 - 2026-07-23
 
 - Added menu API data through pawnlsp.
