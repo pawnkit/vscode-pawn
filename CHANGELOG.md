@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.7 - 2026-07-23
+
+- Added actor API data through pawnlsp.
+
 ## 0.10.6 - 2026-07-23
 
 - Updated pawnlsp so diagnostics can link to related source locations.
