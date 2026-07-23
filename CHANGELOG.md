@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.15 - 2026-07-23
+
+- Added player-class API data through pawnlsp.
+
 ## 0.10.14 - 2026-07-23
 
 - Added object query, attachment, and custom-model API data through pawnlsp.
