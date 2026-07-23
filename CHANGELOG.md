@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.8 - 2026-07-23
+
+- Added checkpoint API data through pawnlsp.
+
 ## 0.10.7 - 2026-07-23
 
 - Added actor API data through pawnlsp.
