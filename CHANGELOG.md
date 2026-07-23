@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.20 - 2026-07-23
+
+- Completed SA-MP and open.mp API data through pawnlsp.
+
 ## 0.10.19 - 2026-07-23
 
 - Added 3D text-label API data through pawnlsp.
