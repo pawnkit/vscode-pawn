@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1 - 2026-07-23
+
+- Updated pawnlsp with managed-include lifecycle coverage.
+
 ## 0.11.0 - 2026-07-23
 
 - Sent versioned managed-tool state to pawnlsp.
