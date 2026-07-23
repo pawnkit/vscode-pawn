@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.13 - 2026-07-23
+
+- Updated the managed PawnKit CLI to `v1.0.2`.
+
 ## 0.9.12 - 2026-07-23
 
 - Updated the managed PawnKit CLI to `v1.0.1`.
