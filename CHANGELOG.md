@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0 - 2026-07-23
+
+- Sent versioned managed-tool state to pawnlsp.
+- Updated the managed language server, formatter, and linter.
+
 ## 0.10.20 - 2026-07-23
 
 - Completed SA-MP and open.mp API data through pawnlsp.

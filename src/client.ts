@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { LanguageClient, LanguageClientOptions, ServerOptions, State, Trace } from "vscode-languageclient/node";
+import { initializationOptions, managedToolState } from "./lspProtocol";
 import { ToolManager } from "./toolManager";
 
 export class PawnLanguageClient implements vscode.Disposable {
@@ -13,7 +14,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     this.status.name = "Pawn language server";
     this.toolSubscription = this.tools.onDidInstall((binary) => {
       if (binary === "pawntest") {
-        void this.updateIncludePaths().catch((error: unknown) => this.output.appendLine(`Could not update include paths: ${String(error)}`));
+        void this.updateManagedTools().catch((error: unknown) => this.output.appendLine(`Could not update managed tools: ${String(error)}`));
       }
     });
   }
@@ -27,10 +28,9 @@ export class PawnLanguageClient implements vscode.Disposable {
     const options: LanguageClientOptions = {
       documentSelector: [{ scheme: "file", language: "pawn" }],
       outputChannel: this.output,
-      initializationOptions: { includePaths: this.tools.includePaths() },
+      initializationOptions: initializationOptions(this.tools.managedIncludeRoots()),
       workspaceFolder: vscode.workspace.workspaceFolders?.[0],
       synchronize: {
-        configurationSection: "pawn",
         fileEvents: [
           vscode.workspace.createFileSystemWatcher("**/{pawn.json,pawn.lock,.pawnlint.toml}"),
           vscode.workspace.createFileSystemWatcher("**/*.{pwn,inc}")
@@ -44,7 +44,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     this.client = client;
     this.updateStatus(State.Starting);
     await client.start();
-    await this.updateIncludePaths();
+    await this.updateManagedTools();
   }
 
   async stop(): Promise<void> {
@@ -65,11 +65,12 @@ export class PawnLanguageClient implements vscode.Disposable {
     this.status.dispose();
   }
 
-  private async updateIncludePaths(): Promise<void> {
+  private async updateManagedTools(): Promise<void> {
     if (!this.client || this.client.state !== State.Running) return;
-    await this.client.sendNotification("workspace/didChangeConfiguration", {
-      settings: { pawn: { includePaths: this.tools.includePaths() } }
-    });
+    await this.client.sendNotification(
+      "pawnkit/didChangeManagedTools",
+      managedToolState(this.tools.managedIncludeRoots())
+    );
   }
 
   private updateStatus(state: State): void {

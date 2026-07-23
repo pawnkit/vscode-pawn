@@ -97,7 +97,7 @@ export class ToolManager implements vscode.Disposable {
     void vscode.window.showInformationMessage(lines.join("\n"), { modal: true });
   }
 
-  includePaths(): string[] {
+  managedIncludeRoots(): string[] {
     const pawntest = tools.find((tool) => tool.binary === "pawntest");
     if (!pawntest) return [];
     const root = managedIncludeRoot(this.path(pawntest), existsSync);
