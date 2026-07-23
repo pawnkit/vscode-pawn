@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.9 - 2026-07-23
+
+- Added dialog API data through pawnlsp.
+
 ## 0.10.8 - 2026-07-23
 
 - Added checkpoint API data through pawnlsp.
