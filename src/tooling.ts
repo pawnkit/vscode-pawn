@@ -10,9 +10,9 @@ export interface ToolDefinition {
 }
 
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.9" },
-  { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.2" },
-  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.2" },
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.9.10" },
+  { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.0.3" },
+  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: "v1.1.3" },
   { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
 ];
 
@@ -23,8 +23,8 @@ export interface BundledToolDefinition {
 }
 
 export const bundledTools: readonly BundledToolDefinition[] = [
-  { label: "Pawn formatter", provider: "pawnlsp", version: "v1.3.3" },
-  { label: "Pawn linter", provider: "pawnlsp", version: "v1.1.0" }
+  { label: "Pawn formatter", provider: "pawnlsp", version: "v1.3.4" },
+  { label: "Pawn linter", provider: "pawnlsp", version: "v1.1.1" }
 ];
 
 export interface ReleaseAsset { name: string; browser_download_url: string; }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.14 - 2026-07-23
+
+- Updated the managed language server, CLI, test runner, formatter, and linter.
+
 ## 0.9.13 - 2026-07-23
 
 - Updated the managed PawnKit CLI to `v1.0.2`.
