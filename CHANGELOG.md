@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 - 2026-07-23
+
+- Added guided PawnKit project setup.
+- Added a project-health indicator to the status bar.
+- Added links from pawnlint diagnostics to their rule documentation.
+- Updated the managed language server to `v0.10.0`.
+- Updated the managed PawnKit CLI to `v1.1.0`.
+
 ## 0.9.14 - 2026-07-23
 
 - Updated the managed language server, CLI, test runner, formatter, and linter.

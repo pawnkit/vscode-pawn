@@ -10,6 +10,10 @@ When a tool is missing, the extension offers to download a compatible release.
 Downloads require confirmation and are checked against the release checksum.
 Use **PawnKit: Install/Update Tools** to manage them later.
 
+Use **PawnKit: Set Up Project** in an existing Pawn workspace to choose its
+entry file and target. The extension finds conventional include directories
+and creates `pawn.json` through the PawnKit CLI.
+
 To manage the tools yourself, install them with Go:
 
 ```sh
