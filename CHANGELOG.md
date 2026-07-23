@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.2 - 2026-07-23
+
+- Updated pawnlsp for clickable lint and analysis documentation.
+
 ## 0.10.1 - 2026-07-23
 
 - Added an in-editor project-health view with file and remediation actions.
