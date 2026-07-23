@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.12 - 2026-07-23
+
+- Updated the managed PawnKit CLI to `v1.0.1`.
+
 ## 0.9.11 - 2026-07-22
 
 - Updated pawnlsp for compiler constants, YSI iterators, `void:` functions, and backslash include formatting.
