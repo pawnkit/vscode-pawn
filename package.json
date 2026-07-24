@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -126,6 +126,10 @@
         "title": "Pawn: Diagnose Project"
       },
       {
+        "command": "pawn.build",
+        "title": "Pawn: Build Project"
+      },
+      {
         "command": "pawn.installTools",
         "title": "PawnKit: Install/Update Tools"
       },
@@ -158,6 +162,24 @@
           "default": "",
           "scope": "machine-overridable",
           "description": "Path to the pawn CLI. Empty uses PATH or the managed copy."
+        },
+        "pawn.build.compiler": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Path to pawncc for project builds."
+        },
+        "pawn.build.backend": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Path to an RFC 0012 build backend."
+        },
+        "pawn.build.artifact": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Optional output path for project builds."
         },
         "pawn.debug.path": {
           "type": "string",
@@ -232,8 +254,37 @@
               "check",
               "fmt",
               "lint",
-              "doctor"
+              "doctor",
+              "build"
             ]
+          },
+          "project": {
+            "type": "string",
+            "description": "Project root or manifest"
+          },
+          "profile": {
+            "type": "string",
+            "description": "Project profile"
+          },
+          "build": {
+            "type": "string",
+            "description": "Named build"
+          },
+          "runtime": {
+            "type": "string",
+            "description": "Named runtime"
+          },
+          "compiler": {
+            "type": "string",
+            "description": "Pawn compiler path"
+          },
+          "backend": {
+            "type": "string",
+            "description": "RFC 0012 backend path"
+          },
+          "artifact": {
+            "type": "string",
+            "description": "Output path"
           }
         }
       }

@@ -4,7 +4,7 @@
 |---|---|
 | Project diagnostics, documented hover and completion, navigation, call hierarchy, signature help, semantic highlighting, rename, folding, edits | `pawnlsp` over LSP |
 | Whole-file, range, and format-on-type formatting; code actions | `pawnlsp` over LSP |
-| Check, format, lint, and doctor | `pawn` commands |
+| Check, format, lint, doctor, and build | `pawn` commands |
 | Debug launch | `pawndebug` over DAP |
 | Test discovery and execution | `pawntest` JSON protocol |
 | Immediate syntax highlighting | Bundled TextMate grammar |

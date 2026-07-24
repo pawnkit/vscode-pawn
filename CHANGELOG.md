@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.0 - 2026-07-24
+
+- Added project build commands and tasks through the PawnKit CLI.
+- Updated the managed CLI to the tested v1.2.0 release.
+
 ## 0.12.0 - 2026-07-23
 
 - Select managed tool versions from the tested PawnKit release set.
