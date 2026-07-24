@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.1 - 2026-07-24
+
+- Updated the managed CLI, linter, and language server to v1.2.1, v1.1.5,
+  and v0.26.4.
+
 ## 0.13.0 - 2026-07-24
 
 - Added project build commands and tasks through the PawnKit CLI.

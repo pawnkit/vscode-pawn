@@ -13,10 +13,10 @@ export const testedReleaseSet = {
   id: "build-preview-2026-07-24",
   url: "https://pawnkit.dev/release-sets/build-preview-2026-07-24.json",
   versions: {
-    pawn: "v1.2.0",
+    pawn: "v1.2.1",
     pawnfmt: "v1.3.5",
-    pawnlint: "v1.1.4",
-    pawnlsp: "v0.26.2",
+    pawnlint: "v1.1.5",
+    pawnlsp: "v0.26.4",
     pawntest: "v1.1.4"
   }
 } as const;
