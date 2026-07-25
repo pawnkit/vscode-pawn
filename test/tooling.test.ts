@@ -42,7 +42,7 @@ test("repairs pawntest when managed includes are missing", () => {
 
 test("reports tools bundled with the language server", () => {
   assert.equal(testedReleaseSet.id, "build-preview-2026-07-24");
-  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.26.8");
+  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.26.10");
   assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.2.1");
   assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.1.4");
   assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
@@ -50,5 +50,5 @@ test("reports tools bundled with the language server", () => {
     ["Pawn linter", "pawnlsp"]
   ]);
   assert.equal(bundledTools.find(({ label }) => label === "Pawn formatter")?.version, "v1.3.5");
-  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.1.8");
+  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.1.10");
 });
