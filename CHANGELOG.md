@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.6 - 2026-07-25
+
+- Updated managed tools to the current tested release set.
+
 ## 0.13.5 - 2026-07-25
 
 - Updated the managed linter and language server to v1.1.10 and v0.26.10.

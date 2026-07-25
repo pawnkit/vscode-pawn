@@ -10,10 +10,10 @@ export interface ToolDefinition {
 }
 
 export const testedReleaseSet = {
-  id: "build-preview-2026-07-24",
-  url: "https://pawnkit.dev/release-sets/build-preview-2026-07-24.json",
+  id: "toolchain-preview-2026-07-25",
+  url: "https://pawnkit.dev/release-sets/toolchain-preview-2026-07-25.json",
   versions: {
-    pawn: "v1.2.1",
+    pawn: "v1.3.0",
     pawnfmt: "v1.3.5",
     pawnlint: "v1.1.10",
     pawnlsp: "v0.26.10",
