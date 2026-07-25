@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.4 - 2026-07-25
+
+- Updated the managed linter and language server to v1.1.8 and v0.26.8.
+
 ## 0.13.3 - 2026-07-25
 
 - Updated `vscode-languageclient` to v10.1.0, fixing a high-severity
