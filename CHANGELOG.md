@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.3 - 2026-07-25
+
+- Updated `vscode-languageclient` to v10.1.0, fixing a high-severity
+  denial-of-service advisory in a bundled dependency.
+
 ## 0.13.2 - 2026-07-25
 
 - Updated the managed linter and language server to v1.1.7 and v0.26.7.

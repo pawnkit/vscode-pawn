@@ -8,7 +8,7 @@ export class PawnLanguageClient implements vscode.Disposable {
   private readonly status: vscode.StatusBarItem;
   private readonly toolSubscription: vscode.Disposable;
 
-  constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
+  constructor(private readonly output: vscode.LogOutputChannel, private readonly tools: ToolManager) {
     this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 50);
     this.status.command = "pawn.showOutput";
     this.status.name = "Pawn language server";
@@ -74,7 +74,10 @@ export class PawnLanguageClient implements vscode.Disposable {
   }
 
   private updateStatus(state: State): void {
-    const labels = { [State.Starting]: "$(sync~spin) Pawn", [State.Running]: "$(check) Pawn", [State.Stopped]: "$(error) Pawn" };
+    const labels = {
+      [State.Starting]: "$(sync~spin) Pawn", [State.Running]: "$(check) Pawn",
+      [State.Stopped]: "$(error) Pawn", [State.StartFailed]: "$(error) Pawn (start failed)"
+    };
     this.status.text = labels[state];
     this.status.tooltip = state === State.Running ? "Pawn language server is running" : "Open Pawn language server output";
     this.status.show();

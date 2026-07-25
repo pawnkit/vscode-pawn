@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -59,7 +59,7 @@
     "verify-package": "node test/verify-package.mjs"
   },
   "dependencies": {
-    "vscode-languageclient": "^9.0.1"
+    "vscode-languageclient": "^10.1.0"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.8",
