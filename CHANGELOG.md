@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.9 - 2026-07-26
+
+- Updated the managed language server, linter, and debugger.
+- Supported SAFW-sized macro expansion without removing preprocessing limits.
+
 ## 0.13.8 - 2026-07-26
 
 - Updated managed tools to the July 26 tested release set.

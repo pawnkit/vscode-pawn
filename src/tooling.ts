@@ -21,11 +21,17 @@ export const testedReleaseSet = {
   }
 } as const;
 
+export const managedVersions = {
+  ...testedReleaseSet.versions,
+  pawnlint: "v1.3.4",
+  pawnlsp: "v0.32.9"
+} as const;
+
 export const tools: readonly ToolDefinition[] = [
-  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: testedReleaseSet.versions.pawnlsp },
-  { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: testedReleaseSet.versions.pawn },
-  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: testedReleaseSet.versions.pawntest },
-  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.0" }
+  { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: managedVersions.pawnlsp },
+  { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: managedVersions.pawn },
+  { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: managedVersions.pawntest },
+  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.1" }
 ];
 
 export interface BundledToolDefinition {
@@ -35,8 +41,8 @@ export interface BundledToolDefinition {
 }
 
 export const bundledTools: readonly BundledToolDefinition[] = [
-  { label: "Pawn formatter", provider: "pawnlsp", version: testedReleaseSet.versions.pawnfmt },
-  { label: "Pawn linter", provider: "pawnlsp", version: testedReleaseSet.versions.pawnlint }
+  { label: "Pawn formatter", provider: "pawnlsp", version: managedVersions.pawnfmt },
+  { label: "Pawn linter", provider: "pawnlsp", version: managedVersions.pawnlint }
 ];
 
 export interface ReleaseAsset { name: string; browser_download_url: string; }
