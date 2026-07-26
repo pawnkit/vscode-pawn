@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.13 - 2026-07-26
+
+### Fixed
+
+- Updated pawnlsp to v0.32.13 to fix clean workspace diagnostic reports.
+
 ## 0.13.12 - 2026-07-26
 
 ### Performance
