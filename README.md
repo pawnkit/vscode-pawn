@@ -1,5 +1,7 @@
 # PawnKit for VS Code
 
+[![Maturity: preview](https://img.shields.io/badge/maturity-preview-blue)](.pawnkit/support.json)
+
 PawnKit connects VS Code to the PawnKit command-line tools. The extension keeps
 editor code small: `pawnlsp` handles language features, `pawn` runs project
 checks, and the optional debugger and test tools keep their own protocols.

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "repository": "pawnkit/vscode-pawn",
+  "maturity": "preview",
+  "platforms": ["linux-amd64"],
+  "profiles": ["samp-037", "openmp"],
+  "compilers": [],
+  "contracts": [
+    { "name": "pawn-project", "major": 1 },
+    { "name": "pawn-release-set", "major": 1 },
+    { "name": "pawn-diagnostic", "major": 2 }
+  ],
+  "limitations": [
+    "Automated extension tests run on Linux.",
+    "Marketplace publication is deferred while community testing continues."
+  ]
+}
