@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.8 - 2026-07-26
+
+- Updated managed tools to the July 26 tested release set.
+
 ## 0.13.7 - 2026-07-25
 
 - Added the repository support record with CI validation.
