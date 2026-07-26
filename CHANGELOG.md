@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.12 - 2026-07-26
+
+### Performance
+
+- Updated pawnlsp to v0.32.12 for preprocessing reuse.
+
 ## 0.13.11 - 2026-07-26
 
 ### Performance
