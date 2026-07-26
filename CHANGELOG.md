@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.11 - 2026-07-26
+
+### Performance
+
+- Updated pawnlsp to v0.32.11 for expanded-analysis reuse.
+
 ## 0.13.10 - 2026-07-26
 
 ### Performance
