@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.10 - 2026-07-26
+
+### Performance
+
+- Updated pawnlsp to v0.32.10 for faster analysis of large include graphs.
+
 ## 0.13.9 - 2026-07-26
 
 - Updated the managed language server, linter, and debugger.
