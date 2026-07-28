@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.14 - 2026-07-28
+
+### Added
+
+- Dim source excluded by conditional compilation.
+
 ## 0.13.13 - 2026-07-26
 
 ### Fixed
