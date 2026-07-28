@@ -1,15 +1,15 @@
 import assert from "node:assert/strict";
 import { join } from "node:path";
 import test from "node:test";
-import { bundledTools, expectedChecksum, managedIncludeRoot, managedToolReady, releaseAsset, sha256, testedReleaseSet, ToolDefinition, tools } from "../src/tooling";
+import { bundledTools, expectedChecksum, managedIncludeRoot, managedToolReady, releaseDownloads, sha256, testedReleaseSet, ToolDefinition, tools } from "../src/tooling";
 
-test("selects the release archive for the current target", () => {
-  const assets = [
-    { name: "pawntest_Darwin_arm64.tar.gz", browser_download_url: "arm" },
-    { name: "pawntest_Windows_x86_64.zip", browser_download_url: "windows" }
-  ];
-  assert.equal(releaseAsset(assets, "win32", "x64")?.browser_download_url, "windows");
-  assert.equal(releaseAsset(assets, "darwin", "arm64")?.browser_download_url, "arm");
+test("builds pinned release download URLs", () => {
+  const server: ToolDefinition = { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: "v0.33.3" };
+  assert.equal(releaseDownloads(server, "win32", "x64")?.filename, "pawnlsp_0.33.3_windows_amd64.zip");
+  assert.equal(releaseDownloads(server, "darwin", "arm64")?.filename, "pawnlsp_0.33.3_darwin_arm64.tar.gz");
+
+  const cli: ToolDefinition = { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: "v1.3.1" };
+  assert.equal(releaseDownloads(cli, "linux", "x64")?.filename, "pawn-linux-amd64.tar.gz");
 });
 
 test("matches GoReleaser checksums", () => {

@@ -45,8 +45,6 @@ export const bundledTools: readonly BundledToolDefinition[] = [
   { label: "Pawn linter", provider: "pawnlsp", version: managedVersions.pawnlint }
 ];
 
-export interface ReleaseAsset { name: string; browser_download_url: string; }
-
 export function managedIncludeRoot(executable: string, exists: (path: string) => boolean): string | undefined {
   const root = join(dirname(executable), "include");
   return exists(join(root, "pawntest.inc")) ? root : undefined;
@@ -57,14 +55,22 @@ export function managedToolReady(tool: ToolDefinition, executable: string, exist
   return tool.binary !== "pawntest" || managedIncludeRoot(executable, exists) !== undefined;
 }
 
-export function releaseAsset(assets: readonly ReleaseAsset[], platform: NodeJS.Platform, arch: string): ReleaseAsset | undefined {
+export interface ReleaseDownloads {
+  archive: string;
+  checksum: string;
+  filename: string;
+}
+
+export function releaseDownloads(tool: ToolDefinition, platform: NodeJS.Platform, arch: string): ReleaseDownloads | undefined {
   const os = platform === "win32" ? "windows" : platform === "darwin" ? "darwin" : platform === "linux" ? "linux" : "";
-  const architectures = arch === "x64" ? ["amd64", "x86_64"] : arch === "arm64" ? ["arm64", "aarch64"] : [];
-  if (!os || architectures.length === 0) return undefined;
-  return assets.find(({ name }) => {
-    const value = name.toLowerCase();
-    return value.includes(os) && architectures.some((candidate) => value.includes(candidate)) && (value.endsWith(".zip") || value.endsWith(".tar.gz"));
-  });
+  const architecture = arch === "x64" ? "amd64" : arch === "arm64" ? "arm64" : "";
+  if (!os || !architecture) return undefined;
+  const version = tool.version.replace(/^v/, "");
+  const filename = tool.repository === "pawnkit-cli"
+    ? `pawn-${os}-${architecture}.tar.gz`
+    : `${tool.binary}_${version}_${os}_${architecture}.${platform === "win32" ? "zip" : "tar.gz"}`;
+  const base = `https://github.com/pawnkit/${tool.repository}/releases/download/${tool.version}`;
+  return { archive: `${base}/${filename}`, checksum: `${base}/checksums.txt`, filename };
 }
 
 export function expectedChecksum(document: string, filename: string): string | undefined {

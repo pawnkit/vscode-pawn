@@ -4,9 +4,7 @@ import { chmod, mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
-import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseAsset, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
-
-interface GitHubRelease { assets: { name: string; browser_download_url: string }[]; }
+import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseDownloads, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 export class ToolManager implements vscode.Disposable {
   private readonly installEmitter = new vscode.EventEmitter<string>();
@@ -131,15 +129,13 @@ export class ToolManager implements vscode.Disposable {
       await rm(temporary, { force: true });
       return destination;
     }
-    const release = await json<GitHubRelease>(`https://api.github.com/repos/pawnkit/${tool.repository}/releases/tags/${tool.version}`);
-    const asset = releaseAsset(release.assets, process.platform, process.arch);
-    const checksums = release.assets.find((candidate) => candidate.name === "checksums.txt");
-    if (!asset || !checksums) throw new Error(`${tool.label} ${tool.version} has no release for ${process.platform}/${process.arch}.`);
-    const [archive, checksumDocument] = await Promise.all([download(asset.browser_download_url), text(checksums.browser_download_url)]);
-    const expected = expectedChecksum(checksumDocument, asset.name);
-    if (!expected || sha256(archive) !== expected) throw new Error(`Checksum verification failed for ${asset.name}.`);
-    const entries = asset.name.endsWith(".zip") ? zipEntries(archive) : tarGzEntries(archive);
-    const executable = asset.name.endsWith(".zip") ? archiveBinary(entries, tool.binary) : extractTarGz(archive, tool.binary);
+    const release = releaseDownloads(tool, process.platform, process.arch);
+    if (!release) throw new Error(`${tool.label} ${tool.version} has no release for ${process.platform}/${process.arch}.`);
+    const [archive, checksumDocument] = await Promise.all([download(release.archive), text(release.checksum)]);
+    const expected = expectedChecksum(checksumDocument, release.filename);
+    if (!expected || sha256(archive) !== expected) throw new Error(`Checksum verification failed for ${release.filename}.`);
+    const entries = release.filename.endsWith(".zip") ? zipEntries(archive) : tarGzEntries(archive);
+    const executable = release.filename.endsWith(".zip") ? archiveBinary(entries, tool.binary) : extractTarGz(archive, tool.binary);
     await mkdir(dirname(destination), { recursive: true });
     await writeFile(temporary, executable, { mode: 0o755 });
     if (process.platform !== "win32") await chmod(temporary, 0o755);
@@ -164,12 +160,6 @@ async function download(url: string): Promise<Buffer> {
 }
 
 async function text(url: string): Promise<string> { return (await download(url)).toString("utf8"); }
-
-async function json<T>(url: string): Promise<T> {
-  const response = await fetch(url, { headers: { "User-Agent": "vscode-pawn", Accept: "application/vnd.github+json" } });
-  if (!response.ok) throw new Error(`Release lookup failed: HTTP ${response.status}`);
-  return await response.json() as T;
-}
 
 function zipEntries(data: Uint8Array): ArchiveEntry[] {
   const archive = new AdmZip(Buffer.from(data));

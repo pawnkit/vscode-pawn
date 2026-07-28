@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.18 - 2026-07-28
+
+### Fixed
+
+- Download managed tools without using the rate-limited GitHub API.
+
 ## 0.13.17 - 2026-07-28
 
 ### Fixed
