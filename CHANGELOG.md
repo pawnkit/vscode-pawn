@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.35 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint to sort call-graph data once per lint run.
+
 ## 0.13.34 - 2026-07-28
 
 ### Performance
