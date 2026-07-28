@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.33 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint for faster repeated diagnostics.
+
 ## 0.13.32 - 2026-07-28
 
 ### Performance
