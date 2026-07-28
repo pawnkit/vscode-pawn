@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.24 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint so stale lint work stops after a newer edit.
+
 ## 0.13.23 - 2026-07-28
 
 ### Performance
