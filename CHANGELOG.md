@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.50 - 2026-07-28
+
+### Performance
+
+- Updated the language server with shared callable-variant lookups.
+
 ## 0.13.49 - 2026-07-28
 
 ### Performance
