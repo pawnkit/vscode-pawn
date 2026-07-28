@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.49 - 2026-07-28
+
+### Performance
+
+- Updated the language server with typed reference sorting.
+
 ## 0.13.48 - 2026-07-28
 
 ### Performance
