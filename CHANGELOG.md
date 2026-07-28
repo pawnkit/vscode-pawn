@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.52 - 2026-07-28
+
+### Fixed
+
+- Removed false YSI include-cycle and macro-call diagnostics.
+
 ## 0.13.51 - 2026-07-28
 
 ### Fixed
