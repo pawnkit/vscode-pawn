@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.42 - 2026-07-28
+
+### Performance
+
+- Updated the language server to release stale lint cache generations.
+
 ## 0.13.41 - 2026-07-28
 
 ### Performance
