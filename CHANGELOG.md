@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.19 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp to use project include state for inactive-code highlighting.
+
 ## 0.13.18 - 2026-07-28
 
 ### Fixed
