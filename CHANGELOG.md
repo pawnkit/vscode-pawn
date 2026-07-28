@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.13.37 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp and pawnlint to use unsaved include buffers consistently.
+
+### Performance
+
+- Updated pawnlsp and pawnlint for faster include resolution during repeated
+  diagnostics.
+
 ## 0.13.36 - 2026-07-28
 
 ### Fixed
