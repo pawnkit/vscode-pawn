@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.29 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawn-analysis for faster cold workspace diagnostics.
+
 ## 0.13.28 - 2026-07-28
 
 ### Performance
