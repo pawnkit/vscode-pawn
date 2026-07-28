@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.47 - 2026-07-28
+
+### Performance
+
+- Updated the language server with cached include resolution.
+
 ## 0.13.46 - 2026-07-28
 
 ### Performance
