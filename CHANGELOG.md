@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.25 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint for faster repeated project linting.
+
 ## 0.13.24 - 2026-07-28
 
 ### Performance
