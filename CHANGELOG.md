@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.20 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp to clear standalone include diagnostics and use standard
+  inactive-code highlighting.
+
 ## 0.13.19 - 2026-07-28
 
 ### Fixed
