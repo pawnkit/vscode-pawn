@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.23 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp so local insertions and deletions can reuse the dependency
+  graph.
+
 ## 0.13.22 - 2026-07-28
 
 ### Performance
