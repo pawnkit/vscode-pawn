@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.17 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp to keep project diagnostics consistent for included files.
+
 ## 0.13.16 - 2026-07-28
 
 ### Fixed
