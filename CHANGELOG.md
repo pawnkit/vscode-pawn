@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.39 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp, pawnlint, and pawn-project for faster project indexing.
+
 ## 0.13.38 - 2026-07-28
 
 ### Performance
