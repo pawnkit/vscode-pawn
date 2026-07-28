@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.22 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp so safe function-body edits can reuse the previous dependency
+  graph.
+
 ## 0.13.21 - 2026-07-28
 
 ### Fixed
