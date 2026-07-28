@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.16 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp for normalized project paths on Windows.
+
 ## 0.13.15 - 2026-07-28
 
 ### Fixed
