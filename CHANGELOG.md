@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.44 - 2026-07-28
+
+### Performance
+
+- Updated the language server with cached include filesystem probes.
+
 ## 0.13.43 - 2026-07-28
 
 ### Performance
