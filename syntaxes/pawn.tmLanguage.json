@@ -41,7 +41,7 @@
         "3": { "name": "keyword.control.directive.pawn" }
       }
     },
-    { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
+    { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|foreach|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
     {
       "match": "\\b(defined)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
       "captures": {
@@ -51,9 +51,9 @@
     },
     { "match": "\\bdefined\\b", "name": "keyword.control.directive.conditional.pawn" },
     { "match": "\\b(char|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
-    { "match": "\\b(automaton|const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
+    { "match": "\\b(automaton|const|enum|forward|hook|inline|native|new|operator|ptask|public|remote|static|stock|task|timer)\\b", "name": "storage.type.pawn" },
     {
-      "match": "^(\\s*)(?:(public|stock|static|native|forward)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
+      "match": "^(\\s*)(?:(public|stock|static|native|forward|hook|inline|ptask|remote|task|timer)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
       "captures": {
         "2": { "name": "storage.type.pawn" },
         "3": { "name": "entity.name.type.tag.pawn" },

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.53 - 2026-07-28
+
+### Added
+
+- Show colour previews beside hexadecimal Pawn colours.
+- Highlight common YSI declarations and `foreach` loops.
+
+### Fixed
+
+- Show all parameter hints, including matching argument names.
+- Remove repeated quick fixes and unreachable-code warnings.
+- Show forwarded signatures for macros such as `PlayerDialog_Show`.
+- Restore references from expanded include files.
+
 ## 0.13.52 - 2026-07-28
 
 ### Fixed

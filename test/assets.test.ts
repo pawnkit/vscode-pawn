@@ -32,6 +32,8 @@ test("grammar includes Pawn-specific syntax", () => {
   assert.match(patterns, /keyword\.control\.directive\.conditional\.pawn/);
   assert.match(patterns, /defined.*A-Za-z_@/);
   assert.match(patterns, /automaton/);
+  assert.match(patterns, /foreach/);
+  assert.match(patterns, /hook/);
 });
 
 test("inactive code has a semantic fallback", () => {
