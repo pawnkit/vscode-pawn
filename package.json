@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.13.14",
+  "version": "0.13.15",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -92,6 +92,28 @@
         "path": "./syntaxes/pawn.tmLanguage.json"
       }
     ],
+    "semanticTokenTypes": [
+      {
+        "id": "inactive",
+        "superType": "comment",
+        "description": "Code excluded by a preprocessor condition."
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "language": "pawn",
+        "scopes": {
+          "inactive": [
+            "comment.block.pawn"
+          ]
+        }
+      }
+    ],
+    "configurationDefaults": {
+      "[pawn]": {
+        "editor.semanticHighlighting.enabled": true
+      }
+    },
     "commands": [
       {
         "command": "pawn.setupProject",

@@ -31,4 +31,24 @@ test("grammar includes Pawn-specific syntax", () => {
   assert.match(patterns, /endinput/);
   assert.match(patterns, /keyword\.control\.directive\.conditional\.pawn/);
   assert.match(patterns, /defined.*A-Za-z_@/);
+  assert.match(patterns, /automaton/);
+});
+
+test("inactive code has a semantic fallback", () => {
+  const manifest = readJSON("package.json") as {
+    contributes: {
+      semanticTokenTypes: Array<{ id: string; superType: string }>;
+      semanticTokenScopes: Array<{ language: string; scopes: Record<string, string[]> }>;
+      configurationDefaults: Record<string, Record<string, unknown>>;
+    };
+  };
+
+  assert.deepEqual(manifest.contributes.semanticTokenTypes, [
+    { id: "inactive", superType: "comment", description: "Code excluded by a preprocessor condition." },
+  ]);
+  assert.deepEqual(manifest.contributes.semanticTokenScopes[0]?.scopes.inactive, ["comment.block.pawn"]);
+  assert.equal(
+    manifest.contributes.configurationDefaults["[pawn]"]?.["editor.semanticHighlighting.enabled"],
+    true,
+  );
 });

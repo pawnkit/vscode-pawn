@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.13.15 - 2026-07-28
+
+### Fixed
+
+- Kept workspace diagnostics stable when files are opened.
+- Respected include guards in closed-file diagnostics.
+- Applied inactive-code highlighting across themes.
+
+### Changed
+
+- Highlighted `automaton` as a Pawn declaration keyword.
+
 ## 0.13.14 - 2026-07-28
 
 ### Added

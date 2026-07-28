@@ -51,7 +51,7 @@
     },
     { "match": "\\bdefined\\b", "name": "keyword.control.directive.conditional.pawn" },
     { "match": "\\b(char|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
-    { "match": "\\b(const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
+    { "match": "\\b(automaton|const|enum|forward|native|new|operator|public|static|stock)\\b", "name": "storage.type.pawn" },
     {
       "match": "^(\\s*)(?:(public|stock|static|native|forward)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
       "captures": {
