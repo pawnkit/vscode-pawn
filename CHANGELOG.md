@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.41 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint to reuse define contexts between diagnostics.
+
 ## 0.13.40 - 2026-07-28
 
 ### Performance
