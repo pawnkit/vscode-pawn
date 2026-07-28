@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.51 - 2026-07-28
+
+### Fixed
+
+- Keep dependency diagnostics in the active project context.
+
 ## 0.13.50 - 2026-07-28
 
 ### Performance
