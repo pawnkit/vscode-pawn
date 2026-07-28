@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.32 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp for faster workspace diagnostic filtering.
+
 ## 0.13.31 - 2026-07-28
 
 ### Performance
