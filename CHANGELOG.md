@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.38 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint to reduce analysis cache allocation.
+
 ## 0.13.37 - 2026-07-28
 
 ### Fixed
