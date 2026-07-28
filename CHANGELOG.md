@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.27 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint to reuse semantic analysis results.
+
 ## 0.13.26 - 2026-07-28
 
 ### Performance
