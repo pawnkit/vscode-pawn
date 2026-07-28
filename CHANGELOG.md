@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.26 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp to keep incremental project state during rapid edits.
+
 ## 0.13.25 - 2026-07-28
 
 ### Performance
