@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.34 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint to avoid resolving calls twice during linting.
+
 ## 0.13.33 - 2026-07-28
 
 ### Performance
