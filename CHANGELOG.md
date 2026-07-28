@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.36 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp and pawnlint to match shared diagnostics on Windows.
+
 ## 0.13.35 - 2026-07-28
 
 ### Performance
