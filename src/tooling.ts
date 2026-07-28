@@ -23,8 +23,8 @@ export const testedReleaseSet = {
 
 export const managedVersions = {
   ...testedReleaseSet.versions,
-  pawnlint: "v1.5.0",
-  pawnlsp: "v0.33.12"
+  pawnlint: "v1.6.0",
+  pawnlsp: "v0.33.13"
 } as const;
 
 export const tools: readonly ToolDefinition[] = [
