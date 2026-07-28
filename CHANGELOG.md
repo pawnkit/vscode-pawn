@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.45 - 2026-07-28
+
+### Performance
+
+- Updated the language server with faster lint reference indexing.
+
 ## 0.13.44 - 2026-07-28
 
 ### Performance
