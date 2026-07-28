@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.21 - 2026-07-28
+
+### Fixed
+
+- Updated pawnlsp for faster, stable project diagnostics.
+- Excluded vendored dependency diagnostics.
+
 ## 0.13.20 - 2026-07-28
 
 ### Fixed
