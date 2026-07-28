@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.40 - 2026-07-28
+
+### Performance
+
+- Updated pawnlsp and pawnlint for faster reference indexing.
+
 ## 0.13.39 - 2026-07-28
 
 ### Performance
