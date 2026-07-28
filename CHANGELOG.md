@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.43 - 2026-07-28
+
+### Performance
+
+- Updated the language server with faster define-environment reuse.
+
 ## 0.13.42 - 2026-07-28
 
 ### Performance
