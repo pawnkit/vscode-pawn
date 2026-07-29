@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.14 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp to v0.33.64 for faster strict loop checks.
+
 ## 0.18.13 - 2026-07-29
 
 ### Performance
