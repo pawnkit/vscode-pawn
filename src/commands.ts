@@ -1,6 +1,9 @@
 import * as vscode from "vscode";
+import { isAbsolute, relative, sep } from "node:path";
 import { buildArgs } from "./buildArgs";
 import { ToolManager } from "./toolManager";
+import { run } from "./process";
+import { BuildDiagnostic, readBuildReport } from "./buildProtocol";
 
 const commands: Record<string, readonly string[]> = {
   check: ["check"],
@@ -10,6 +13,8 @@ const commands: Record<string, readonly string[]> = {
 };
 
 export function registerToolCommands(context: vscode.ExtensionContext, tools: ToolManager): void {
+  const builds = new BuildRunner();
+  context.subscriptions.push(builds);
   for (const name of [...Object.keys(commands), "build"]) {
     context.subscriptions.push(vscode.commands.registerCommand(`pawn.${name}`, async () => {
       if (!vscode.workspace.isTrusted) {
@@ -36,6 +41,10 @@ export function registerToolCommands(context: vscode.ExtensionContext, tools: To
         }
         const config = vscode.workspace.getConfiguration("pawn.cli", folder.uri);
         const executable = await tools.resolve("pawn", config.get<string>("path"), folder.uri.fsPath);
+        if (name === "build") {
+          await builds.run(executable, args, folder);
+          return;
+        }
         const terminal = vscode.window.createTerminal({ name: `Pawn: ${name}`, cwd: folder.uri, shellPath: executable, shellArgs: [...args] });
         terminal.show();
       } catch (error) {
@@ -43,6 +52,105 @@ export function registerToolCommands(context: vscode.ExtensionContext, tools: To
       }
     }));
   }
+}
+
+class BuildRunner implements vscode.Disposable {
+  private readonly diagnostics = vscode.languages.createDiagnosticCollection("pawn-build");
+  private active?: AbortController;
+
+  dispose(): void {
+    this.active?.abort();
+    this.diagnostics.dispose();
+  }
+
+  async run(executable: string, args: readonly string[], folder: vscode.WorkspaceFolder): Promise<void> {
+    this.active?.abort();
+    const controller = new AbortController();
+    this.active = controller;
+    try {
+      const result = await vscode.window.withProgress({
+        location: vscode.ProgressLocation.Notification,
+        title: "Building Pawn project",
+        cancellable: true
+      }, async (_progress, token) => {
+        const subscription = token.onCancellationRequested(() => controller.abort());
+        try {
+          return await run(executable, [...args, "--format", "json"], folder.uri.fsPath, 1024 * 1024, controller.signal);
+        } finally {
+          subscription.dispose();
+        }
+      });
+      if (this.active !== controller) return;
+      const report = readBuildReport(result.stdout);
+      this.publish(report.diagnostics, folder);
+      if (report.status === "passed") {
+        await this.showArtifacts(report.artifacts.map(({ path }) => path));
+        return;
+      }
+      if (report.status === "cancelled") return;
+      const action = await vscode.window.showErrorMessage(
+        `Pawn build failed with ${report.diagnostics.length} diagnostic${report.diagnostics.length === 1 ? "" : "s"}.`,
+        "Show Problems"
+      );
+      if (action === "Show Problems") await vscode.commands.executeCommand("workbench.actions.view.problems");
+    } catch (error) {
+      if (controller.signal.aborted) return;
+      throw error;
+    } finally {
+      if (this.active === controller) this.active = undefined;
+    }
+  }
+
+  private publish(findings: BuildDiagnostic[], folder: vscode.WorkspaceFolder): void {
+    const grouped = new Map<string, { uri: vscode.Uri; items: vscode.Diagnostic[] }>();
+    for (const finding of findings) {
+      const uri = vscode.Uri.parse(finding.primary.uri, true);
+      if (uri.scheme !== "file" || !contained(folder.uri.fsPath, uri.fsPath)) continue;
+      const range = finding.primary.range;
+      const diagnostic = new vscode.Diagnostic(
+        range
+          ? new vscode.Range(range.start.line, range.start.character, range.end.line, range.end.character)
+          : new vscode.Range(0, 0, 0, 1),
+        finding.message,
+        diagnosticSeverity(finding.severity)
+      );
+      diagnostic.code = finding.code;
+      diagnostic.source = finding.source;
+      const key = uri.toString();
+      const group = grouped.get(key) ?? { uri, items: [] };
+      group.items.push(diagnostic);
+      grouped.set(key, group);
+    }
+    this.diagnostics.clear();
+    for (const { uri, items } of grouped.values()) this.diagnostics.set(uri, items);
+  }
+
+  private async showArtifacts(paths: string[]): Promise<void> {
+    if (paths.length === 0) {
+      void vscode.window.showInformationMessage("Pawn build completed.");
+      return;
+    }
+    const artifact = vscode.Uri.file(paths[0]!);
+    const action = await vscode.window.showInformationMessage(
+      paths.length === 1 ? `Built ${vscode.workspace.asRelativePath(artifact)}.` : `Pawn build produced ${paths.length} artifacts.`,
+      "Reveal Artifact"
+    );
+    if (action === "Reveal Artifact") await vscode.commands.executeCommand("revealFileInOS", artifact);
+  }
+}
+
+function diagnosticSeverity(value: BuildDiagnostic["severity"]): vscode.DiagnosticSeverity {
+  switch (value) {
+    case "warning": return vscode.DiagnosticSeverity.Warning;
+    case "info": return vscode.DiagnosticSeverity.Information;
+    case "hint": return vscode.DiagnosticSeverity.Hint;
+    default: return vscode.DiagnosticSeverity.Error;
+  }
+}
+
+function contained(root: string, target: string): boolean {
+  const path = relative(root, target);
+  return path !== ".." && !path.startsWith(`..${sep}`) && !isAbsolute(path);
 }
 
 export class PawnTaskProvider implements vscode.TaskProvider {

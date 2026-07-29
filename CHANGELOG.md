@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.17.0 - 2026-07-29
+
+### Added
+
+- Show compiler build diagnostics in the Problems panel.
+- Offer to reveal a successful build artifact.
+
+### Changed
+
+- Updated the PawnKit CLI to v1.4.1.
+
 ## 0.16.0 - 2026-07-29
 
 ### Added
