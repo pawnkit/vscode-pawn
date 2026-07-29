@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -114,14 +114,63 @@
         "editor.semanticHighlighting.enabled": true
       }
     },
+    "walkthroughs": [
+      {
+        "id": "pawnkit.gettingStarted",
+        "title": "Get started with PawnKit",
+        "description": "Set up a Pawn project, check it, and run it from VS Code.",
+        "steps": [
+          {
+            "id": "installTools",
+            "title": "Install the PawnKit tools",
+            "description": "Run [Install/Update Tools](command:pawn.installTools). PawnKit downloads pinned releases and verifies their checksums.",
+            "completionEvents": [
+              "onCommand:pawn.installTools"
+            ]
+          },
+          {
+            "id": "setupProject",
+            "title": "Set up the project",
+            "description": "Open a Pawn workspace, then [set up its manifest](command:pawn.setupProject). Existing `pawn.json` and `pawn.yaml` files are kept.",
+            "completionEvents": [
+              "onCommand:pawn.setupProject"
+            ]
+          },
+          {
+            "id": "checkStatus",
+            "title": "Check the selected profile",
+            "description": "Open [Project Status](command:pawn.showProjectHealth) to see the resolved profile, build, runtime, and project findings.",
+            "completionEvents": [
+              "onCommand:pawn.showProjectHealth"
+            ]
+          },
+          {
+            "id": "checkProject",
+            "title": "Run project checks",
+            "description": "Run [Check Project](command:pawn.check) to check formatting and lint diagnostics with the same project settings.",
+            "completionEvents": [
+              "onCommand:pawn.check"
+            ]
+          },
+          {
+            "id": "buildProject",
+            "title": "Build the project",
+            "description": "Configure a compiler or backend, then [build the project](command:pawn.build).",
+            "completionEvents": [
+              "onCommand:pawn.build"
+            ]
+          }
+        ]
+      }
+    ],
     "commands": [
       {
         "command": "pawn.setupProject",
         "title": "PawnKit: Set Up Project"
       },
       {
-      "command": "pawn.showProjectHealth",
-      "title": "PawnKit: Show Project Status"
+        "command": "pawn.showProjectHealth",
+        "title": "PawnKit: Show Project Status"
       },
       {
         "command": "pawn.restartServer",

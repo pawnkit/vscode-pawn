@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.15.0 - 2026-07-29
+
+### Added
+
+- Added a getting-started walkthrough for tools, project setup, checks, and
+  builds.
+
 ## 0.14.0 - 2026-07-29
 
 ### Added
