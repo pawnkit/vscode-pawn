@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.57 - 2026-07-29
+
+### Fixed
+
+- Updated pawnlsp to format changed ranges spanning several declarations.
+
 ## 0.13.56 - 2026-07-29
 
 ### Fixed
