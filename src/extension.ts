@@ -6,6 +6,7 @@ import { PawnTests } from "./testing";
 import { ToolManager } from "./toolManager";
 import { ProjectHealth } from "./health";
 import { setupProject } from "./setup";
+import { EntryCodeLensProvider } from "./entryCodeLens";
 
 let languageClient: PawnLanguageClient | undefined;
 let pawnTests: PawnTests | undefined;
@@ -40,6 +41,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     await vscode.env.openExternal(vscode.Uri.parse(`https://github.com/pawnkit/pawnlint/blob/main/docs/rules/${ruleID}.md`));
   }));
   context.subscriptions.push(vscode.tasks.registerTaskProvider("pawn", new PawnTaskProvider(tools)));
+  context.subscriptions.push(vscode.languages.registerCodeLensProvider(
+    { language: "pawn", scheme: "file" },
+    new EntryCodeLensProvider()
+  ));
   context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider("pawn", new PawnDebugProvider()));
   context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("pawn", new PawnDebugAdapterFactory(tools)));
   context.subscriptions.push(vscode.commands.registerCommand("pawn.installTools", () => tools.chooseAndInstall()));

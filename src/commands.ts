@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { isAbsolute, relative, sep } from "node:path";
-import { buildArgs } from "./buildArgs";
+import { buildArgs, runArgs } from "./buildArgs";
 import { ToolManager } from "./toolManager";
 import { run } from "./process";
 import { BuildDiagnostic, readBuildReport } from "./buildProtocol";
@@ -15,7 +15,7 @@ const commands: Record<string, readonly string[]> = {
 export function registerToolCommands(context: vscode.ExtensionContext, tools: ToolManager): void {
   const builds = new BuildRunner();
   context.subscriptions.push(builds);
-  for (const name of [...Object.keys(commands), "build"]) {
+  for (const name of [...Object.keys(commands), "build", "run"]) {
     context.subscriptions.push(vscode.commands.registerCommand(`pawn.${name}`, async () => {
       if (!vscode.workspace.isTrusted) {
         void vscode.window.showWarningMessage("Trust this workspace before running PawnKit tools.");
@@ -31,7 +31,9 @@ export function registerToolCommands(context: vscode.ExtensionContext, tools: To
         const args = commandArgs(folder, name);
         if (!args) {
           const choice = await vscode.window.showErrorMessage(
-            "Set exactly one of pawn.build.compiler or pawn.build.backend before building.",
+            name === "run"
+              ? "Set pawn.build.backend before running the project."
+              : "Set exactly one of pawn.build.compiler or pawn.build.backend before building.",
             "Open Settings"
           );
           if (choice === "Open Settings") {
@@ -160,7 +162,7 @@ export class PawnTaskProvider implements vscode.TaskProvider {
     if (!vscode.workspace.isTrusted) return [];
     const tasks: vscode.Task[] = [];
     for (const folder of vscode.workspace.workspaceFolders ?? []) {
-      for (const name of [...Object.keys(commands), "build"]) {
+      for (const name of [...Object.keys(commands), "build", "run"]) {
         const args = commandArgs(folder, name);
         if (args) tasks.push(await this.task(folder, name, args));
       }
@@ -187,10 +189,8 @@ export class PawnTaskProvider implements vscode.TaskProvider {
 }
 
 function commandArgs(folder: vscode.WorkspaceFolder, name: string, definition?: vscode.TaskDefinition): readonly string[] | undefined {
-  if (name !== "build") return commands[name];
-
   const config = vscode.workspace.getConfiguration("pawn.build", folder.uri);
-  return buildArgs({
+  const options = {
     project: taskString(definition, "project"),
     profile: taskString(definition, "profile"),
     build: taskString(definition, "build"),
@@ -198,7 +198,10 @@ function commandArgs(folder: vscode.WorkspaceFolder, name: string, definition?: 
     compiler: taskString(definition, "compiler") ?? config.get<string>("compiler"),
     backend: taskString(definition, "backend") ?? config.get<string>("backend"),
     artifact: taskString(definition, "artifact") ?? config.get<string>("artifact")
-  });
+  };
+  if (name === "build") return buildArgs(options);
+  if (name === "run") return runArgs(options);
+  return commands[name];
 }
 
 function taskString(definition: vscode.TaskDefinition | undefined, key: string): string | undefined {

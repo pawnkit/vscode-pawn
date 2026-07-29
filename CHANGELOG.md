@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.0 - 2026-07-29
+
+### Added
+
+- Added Build and Run actions above top-level `main` functions.
+- Added the Run Project command and task.
+
 ## 0.17.2 - 2026-07-29
 
 ### Changed

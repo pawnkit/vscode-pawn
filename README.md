@@ -36,10 +36,11 @@ The extension adds syntax highlighting, diagnostics, navigation, formatting,
 quick fixes, project checks, debug launch support, Test Explorer integration,
 and JSON schemas for PawnKit project files.
 
-Available project commands are Check, Format, Lint, Diagnose, and Build. Set
+Available project commands are Check, Format, Lint, Diagnose, Build, and Run.
+Build and Run actions also appear above a top-level `main` function. Set
 `pawn.build.compiler` to use pawncc, or `pawn.build.backend` to use an RFC 0012
-backend. The extension sends the build to `pawn`; it does not load the project
-again.
+backend. Run requires a backend. The extension sends both operations to `pawn`;
+it does not load the project again.
 
 ## Troubleshooting
 

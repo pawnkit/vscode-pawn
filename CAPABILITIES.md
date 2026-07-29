@@ -4,8 +4,9 @@
 |---|---|
 | Project diagnostics, documented hover and completion, navigation, call hierarchy, signature help, semantic highlighting, rename, folding, edits | `pawnlsp` over LSP |
 | Whole-file, range, and format-on-type formatting; code actions | `pawnlsp` over LSP |
-| Check, format, lint, doctor, and build | `pawn` commands |
+| Check, format, lint, doctor, build, and run | `pawn` commands |
 | Clickable build diagnostics and artifacts | `pawn build` JSON report |
+| Entry-point Build and Run actions | `pawnlsp` document symbols and `pawn` commands |
 | Debug launch | `pawndebug` over DAP |
 | Test discovery and execution | `pawntest` JSON protocol |
 | Test CodeLens actions | `pawntest` discovery through the VS Code test controller |

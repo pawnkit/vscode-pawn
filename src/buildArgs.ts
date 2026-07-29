@@ -21,3 +21,20 @@ export function buildArgs(options: BuildOptions): string[] | undefined {
   if (options.artifact) args.push("--artifact", options.artifact);
   return args;
 }
+
+export function runArgs(options: BuildOptions): string[] | undefined {
+  if (!options.backend) return undefined;
+
+  const args = ["run"];
+  for (const [flag, value] of [
+    ["project", options.project],
+    ["profile", options.profile],
+    ["build", options.build],
+    ["runtime", options.runtime],
+    ["backend", options.backend],
+    ["artifact", options.artifact]
+  ] as const) {
+    if (value) args.push(`--${flag}`, value);
+  }
+  return args;
+}
