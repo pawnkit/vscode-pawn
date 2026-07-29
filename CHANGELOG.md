@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.18.15 - 2026-07-29
+
+### Fixed
+
+- Resolve relative pawnlint config paths from the workspace.
+
+### Performance
+
+- Updated pawnlsp to v0.33.65 for lower include-heavy diagnostic overhead.
+
 ## 0.18.14 - 2026-07-29
 
 ### Performance
