@@ -55,6 +55,6 @@ test("inactive code has a semantic fallback", () => {
   );
   assert.equal(
     manifest.contributes.configurationDefaults["[pawn]"]?.["editor.formatOnSaveMode"],
-    "modificationsIfAvailable",
+    undefined,
   );
 });

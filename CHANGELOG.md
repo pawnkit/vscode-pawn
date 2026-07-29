@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.61 - 2026-07-29
+
+### Fixed
+
+- Do not duplicate a leading file header when formatting on save.
+- Use one whole-file formatting request on save by default.
+
 ## 0.13.60 - 2026-07-29
 
 ### Added
