@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.55 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp to avoid full-output parsing during range formatting.
+
 ## 0.13.54 - 2026-07-29
 
 ### Performance
