@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.17 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp to v0.33.67 for faster diagnostics on large files.
+
 ## 0.18.16 - 2026-07-29
 
 ### Performance
