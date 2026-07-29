@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.13 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp to v0.33.63 for faster strict-profile analysis.
+
 ## 0.18.12 - 2026-07-29
 
 ### Performance
