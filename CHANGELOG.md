@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.14.0 - 2026-07-29
+
+### Added
+
+- Show the resolved profile, build, runtime, health, and project actions from
+  one status item.
+
+### Changed
+
+- Updated the PawnKit CLI to v1.4.0.
+- Hide the language-server status item while the server is running.
+
 ## 0.13.63 - 2026-07-29
 
 ### Added

@@ -80,6 +80,7 @@ export class PawnLanguageClient implements vscode.Disposable {
     };
     this.status.text = labels[state];
     this.status.tooltip = state === State.Running ? "Pawn language server is running" : "Open Pawn language server output";
-    this.status.show();
+    if (state === State.Running) this.status.hide();
+    else this.status.show();
   }
 }
