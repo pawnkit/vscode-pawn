@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.62 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp so diagnostics no longer delay formatting.
+
 ## 0.13.61 - 2026-07-29
 
 ### Fixed
