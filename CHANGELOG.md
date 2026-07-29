@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.8 - 2026-07-29
+
+### Changed
+
+- Use the signed PawnKit toolchain set.
+
 ## 0.18.7 - 2026-07-29
 
 ### Changed
