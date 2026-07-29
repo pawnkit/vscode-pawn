@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.13.60 - 2026-07-29
+
+### Added
+
+- Number variadic inlay hints as `arg1`, `arg2`, and so on.
+
+### Fixed
+
+- Keep grouped `#define` alignment when formatting on save.
+
 ## 0.13.59 - 2026-07-29
 
 ### Fixed
