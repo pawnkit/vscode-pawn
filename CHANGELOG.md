@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.56 - 2026-07-29
+
+### Fixed
+
+- Updated pawnlsp so range formatting does not wait for analysis during save.
+
 ## 0.13.55 - 2026-07-29
 
 ### Performance
