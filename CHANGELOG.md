@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.16 - 2026-07-29
+
+### Performance
+
+- Updated pawnlsp to v0.33.66 for faster local analysis.
+
 ## 0.18.15 - 2026-07-29
 
 ### Fixed
