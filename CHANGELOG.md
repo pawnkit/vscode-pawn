@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.11 - 2026-07-29
+
+### Fixed
+
+- Updated pawnlsp to v0.33.61 to accept open.mp API tag aliases.
+
 ## 0.18.10 - 2026-07-29
 
 ### Fixed
