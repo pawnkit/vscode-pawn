@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.59 - 2026-07-29
+
+### Fixed
+
+- Show declarations and source comments when hovering over dependency functions.
+- Resolve go-to-definition for dependency functions in large include graphs.
+
 ## 0.13.58 - 2026-07-29
 
 ### Added
