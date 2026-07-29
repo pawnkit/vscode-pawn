@@ -17,7 +17,7 @@ export const testedReleaseSet = {
     pawnfmt: "v1.3.6",
     pawnlint: "v1.1.11",
     pawnlsp: "v0.26.11",
-    pawntest: "v1.2.2"
+    pawntest: "v1.2.3"
   }
 } as const;
 
@@ -32,7 +32,7 @@ export const tools: readonly ToolDefinition[] = [
   { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: managedVersions.pawnlsp },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: managedVersions.pawn },
   { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: managedVersions.pawntest },
-  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.1" }
+  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.2" }
 ];
 
 export interface BundledToolDefinition {
