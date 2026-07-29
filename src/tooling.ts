@@ -13,7 +13,7 @@ export const testedReleaseSet = {
   id: "toolchain-signed-2026-07-29",
   url: "https://pawnkit.dev/release-sets/toolchain-signed-2026-07-29.json",
   versions: {
-    pawn: "v1.5.0",
+    pawn: "v1.5.1",
     pawnfmt: "v1.4.4",
     pawnlint: "v1.7.23",
     pawnlsp: "v0.33.53",

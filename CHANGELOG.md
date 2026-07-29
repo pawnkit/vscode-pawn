@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.9 - 2026-07-29
+
+### Changed
+
+- Install PawnKit CLI v1.5.1 from the signed toolchain set.
+
 ## 0.18.8 - 2026-07-29
 
 ### Changed
