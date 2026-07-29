@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.17.1 - 2026-07-29
+
+### Changed
+
+- Updated pawnlsp to v0.33.51 for faster diagnostics on macro-heavy projects.
+- Updated the PawnKit CLI to v1.4.2.
+
 ## 0.17.0 - 2026-07-29
 
 ### Added
