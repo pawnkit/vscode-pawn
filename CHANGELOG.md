@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.3 - 2026-07-29
+
+### Changed
+
+- Updated pawntest to v1.2.4.
+
 ## 0.18.2 - 2026-07-29
 
 ### Changed
