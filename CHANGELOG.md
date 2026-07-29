@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.13.58 - 2026-07-29
+
+### Added
+
+- Show colour previews and a picker for `{RRGGBB}` colours inside strings.
+
+### Changed
+
+- Align consecutive `#define` values when formatting.
+
 ## 0.13.57 - 2026-07-29
 
 ### Fixed
