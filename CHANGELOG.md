@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.7 - 2026-07-29
+
+### Changed
+
+- Use the tested toolchain set with PawnKit CLI v1.5.0.
+
 ## 0.18.6 - 2026-07-29
 
 ### Changed
