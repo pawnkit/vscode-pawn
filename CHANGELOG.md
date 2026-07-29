@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.10 - 2026-07-29
+
+### Fixed
+
+- Updated pawnlsp to v0.33.60 for faster strict linting and fewer false
+  positives.
+
 ## 0.18.9 - 2026-07-29
 
 ### Changed
