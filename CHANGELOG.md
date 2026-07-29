@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.6 - 2026-07-29
+
+### Changed
+
+- Use the hardened July 29 toolchain set.
+
 ## 0.18.5 - 2026-07-29
 
 ### Changed
