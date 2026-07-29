@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.2 - 2026-07-29
+
+### Changed
+
+- Updated pawnlsp to v0.33.52 and pawnlint to v1.7.21.
+
 ## 0.17.1 - 2026-07-29
 
 ### Changed
