@@ -53,4 +53,8 @@ test("inactive code has a semantic fallback", () => {
     manifest.contributes.configurationDefaults["[pawn]"]?.["editor.semanticHighlighting.enabled"],
     true,
   );
+  assert.equal(
+    manifest.contributes.configurationDefaults["[pawn]"]?.["editor.formatOnSaveMode"],
+    "modificationsIfAvailable",
+  );
 });

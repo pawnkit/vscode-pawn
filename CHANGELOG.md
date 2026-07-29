@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.54 - 2026-07-29
+
+### Performance
+
+- Format modified Pawn syntax units on save when source control ranges are
+  available.
+- Updated pawnlsp for faster range formatting.
+
 ## 0.13.53 - 2026-07-28
 
 ### Added

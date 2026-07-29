@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.13.53",
+  "version": "0.13.54",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -111,7 +111,8 @@
     ],
     "configurationDefaults": {
       "[pawn]": {
-        "editor.semanticHighlighting.enabled": true
+        "editor.semanticHighlighting.enabled": true,
+        "editor.formatOnSaveMode": "modificationsIfAvailable"
       }
     },
     "commands": [
