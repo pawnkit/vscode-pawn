@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.5 - 2026-07-29
+
+### Changed
+
+- Use the July 29 tested toolchain release set.
+
 ## 0.18.4 - 2026-07-29
 
 ### Changed

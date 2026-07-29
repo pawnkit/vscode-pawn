@@ -10,24 +10,18 @@ export interface ToolDefinition {
 }
 
 export const testedReleaseSet = {
-  id: "toolchain-preview-2026-07-26",
-  url: "https://pawnkit.dev/release-sets/toolchain-preview-2026-07-26.json",
+  id: "toolchain-preview-2026-07-29",
+  url: "https://pawnkit.dev/release-sets/toolchain-preview-2026-07-29.json",
   versions: {
-    pawn: "v1.4.1",
-    pawnfmt: "v1.3.6",
-    pawnlint: "v1.1.11",
-    pawnlsp: "v0.26.11",
-    pawntest: "v1.2.4"
+    pawn: "v1.4.2",
+    pawnfmt: "v1.4.3",
+    pawnlint: "v1.7.22",
+    pawnlsp: "v0.33.53",
+    pawntest: "v1.2.5"
   }
 } as const;
 
-export const managedVersions = {
-  ...testedReleaseSet.versions,
-  pawn: "v1.4.2",
-  pawnlint: "v1.7.21",
-  pawnlsp: "v0.33.53",
-  pawntest: "v1.2.5"
-} as const;
+export const managedVersions = testedReleaseSet.versions;
 
 export const tools: readonly ToolDefinition[] = [
   { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: managedVersions.pawnlsp },
