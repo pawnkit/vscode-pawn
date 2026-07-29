@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.1 - 2026-07-29
+
+### Changed
+
+- Updated pawnlsp to v0.33.53.
+
 ## 0.18.0 - 2026-07-29
 
 ### Added
