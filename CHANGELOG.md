@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0 - 2026-07-29
+
+### Added
+
+- Added CodeLens actions to run one test or every test in a file.
+
 ## 0.15.0 - 2026-07-29
 
 ### Added

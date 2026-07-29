@@ -8,15 +8,24 @@ interface TestDescription { id: string; label: string; file?: string; line?: num
 interface TestList { schemaVersion: number; tests: TestDescription[]; }
 interface TestMetadata { name: string; file?: string; }
 
-export class PawnTests implements vscode.Disposable {
+export class PawnTests implements vscode.Disposable, vscode.CodeLensProvider {
   private readonly controller = vscode.tests.createTestController("pawnTests", "Pawn Tests");
   private readonly subscriptions: vscode.Disposable[] = [];
   private readonly metadata = new Map<string, TestMetadata>();
+  private readonly items = new Map<string, vscode.TestItem>();
+  private readonly lensesChanged = new vscode.EventEmitter<void>();
+  readonly onDidChangeCodeLenses = this.lensesChanged.event;
 
   constructor(private readonly output: vscode.OutputChannel, private readonly tools: ToolManager) {
     this.controller.refreshHandler = () => this.discover(true);
     const profile = this.controller.createRunProfile("Run", vscode.TestRunProfileKind.Run, (request, token) => this.execute(request, token));
     profile.isDefault = true;
+    this.subscriptions.push(
+      vscode.languages.registerCodeLensProvider({ language: "pawn", scheme: "file" }, this),
+      vscode.commands.registerCommand("pawn.runTest", (id: unknown) => this.runItem(id)),
+      vscode.commands.registerCommand("pawn.runTestFile", (id: unknown) => this.runItem(id)),
+      this.lensesChanged
+    );
     this.subscriptions.push(this.tools.onDidInstall((binary) => {
       if (binary === "pawntest") void this.discover(false);
     }));
@@ -26,6 +35,27 @@ export class PawnTests implements vscode.Disposable {
   dispose(): void {
     this.subscriptions.forEach((subscription) => subscription.dispose());
     this.controller.dispose();
+  }
+
+  provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
+    const result: vscode.CodeLens[] = [];
+    this.controller.items.forEach((file) => {
+      if (!file.uri || file.uri.toString() !== document.uri.toString()) return;
+      let first: vscode.Range | undefined;
+      file.children.forEach((item) => {
+        if (!item.range) return;
+        first ??= item.range;
+        result.push(new vscode.CodeLens(item.range, {
+          title: "Run Test", command: "pawn.runTest", arguments: [item.id]
+        }));
+      });
+      if (first && file.children.size > 1) {
+        result.unshift(new vscode.CodeLens(first, {
+          title: "Run All Tests in File", command: "pawn.runTestFile", arguments: [file.id]
+        }));
+      }
+    });
+    return result;
   }
 
   private async tool(prompt = true): Promise<{ executable: string; cwd: string }> {
@@ -42,6 +72,7 @@ export class PawnTests implements vscode.Disposable {
   private async discover(prompt = true): Promise<void> {
     this.controller.items.replace([]);
     this.metadata.clear();
+    this.items.clear();
     if (!vscode.workspace.isTrusted || !vscode.workspace.workspaceFolders?.length) return;
     try {
       const { executable, cwd } = await this.tool(prompt);
@@ -62,6 +93,7 @@ export class PawnTests implements vscode.Disposable {
         const itemID = `test:${test.file ?? ""}:${test.id}`;
         const item = this.controller.createTestItem(itemID, test.label, uri);
         this.metadata.set(itemID, { name: test.id, file: test.file });
+        this.items.set(itemID, item);
         if (Number.isInteger(test.line) && test.line! > 0) item.range = new vscode.Range(test.line! - 1, 0, test.line! - 1, 0);
         if (!test.file || !uri) {
           this.controller.items.add(item);
@@ -71,13 +103,27 @@ export class PawnTests implements vscode.Disposable {
         if (!file) {
           file = this.controller.createTestItem(`file:${test.file}`, test.file, uri);
           files.set(test.file, file);
+          this.items.set(file.id, file);
           this.controller.items.add(file);
         }
         file.children.add(item);
       }
+      this.lensesChanged.fire();
     } catch (error) {
       if (error instanceof ToolUnavailableError) return;
       this.output.appendLine(`Test discovery: ${String(error)}`);
+    }
+  }
+
+  private async runItem(id: unknown): Promise<void> {
+    if (typeof id !== "string") return;
+    const item = this.items.get(id);
+    if (!item) return;
+    const source = new vscode.CancellationTokenSource();
+    try {
+      await this.execute(new vscode.TestRunRequest([item]), source.token);
+    } finally {
+      source.dispose();
     }
   }
 
