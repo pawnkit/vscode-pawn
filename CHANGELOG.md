@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.63 - 2026-07-29
+
+### Added
+
+- Show cancellable progress when diagnostics take longer than 500 ms.
+
 ## 0.13.62 - 2026-07-29
 
 ### Performance
