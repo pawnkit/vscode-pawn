@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.20 - 2026-07-30
+
+### Performance
+
+- Updated pawnlsp to v0.33.70 to reduce duplicate editor linting work.
+
 ## 0.18.19 - 2026-07-30
 
 ### Performance
