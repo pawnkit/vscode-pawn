@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.22 - 2026-07-30
+
+- Use the signed July 30 toolchain set.
+- Update PawnKit CLI to v1.6.0 and pawnlint to v1.8.7.
+
 ## 0.18.21 - 2026-07-30
 
 ### Fixed
