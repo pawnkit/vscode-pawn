@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.18 - 2026-07-30
+
+### Performance
+
+- Updated pawnlsp to v0.33.68 for faster strict editor linting.
+
 ## 0.18.17 - 2026-07-29
 
 ### Performance
