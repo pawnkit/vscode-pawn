@@ -16,7 +16,7 @@ export const testedReleaseSet = {
     pawn: "v1.5.1",
     pawnfmt: "v1.4.4",
     pawnlint: "v1.7.39",
-    pawnlsp: "v0.33.68",
+    pawnlsp: "v0.33.69",
     pawntest: "v1.2.5"
   }
 } as const;

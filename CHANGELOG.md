@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.19 - 2026-07-30
+
+### Performance
+
+- Updated pawnlsp to v0.33.69 for faster token-moving edits.
+
 ## 0.18.18 - 2026-07-30
 
 ### Performance
