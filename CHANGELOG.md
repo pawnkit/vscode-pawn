@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.21 - 2026-07-30
+
+### Fixed
+
+- Updated pawnlsp to v0.33.71 to restore fast single-file diagnostics.
+
 ## 0.18.20 - 2026-07-30
 
 ### Performance
