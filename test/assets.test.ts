@@ -45,10 +45,19 @@ test("inactive code has a semantic fallback", () => {
     };
   };
 
-  assert.deepEqual(manifest.contributes.semanticTokenTypes, [
-    { id: "inactive", superType: "comment", description: "Code excluded by a preprocessor condition." },
-  ]);
-  assert.deepEqual(manifest.contributes.semanticTokenScopes[0]?.scopes.inactive, ["comment.block.pawn"]);
+  assert.deepEqual(
+    manifest.contributes.semanticTokenTypes.map(({ id }) => id),
+    ["function", "variable", "parameter", "enum", "type", "macro", "inactive"],
+  );
+  assert.deepEqual(manifest.contributes.semanticTokenScopes[0]?.scopes, {
+    function: ["entity.name.function"],
+    variable: ["variable.other"],
+    parameter: ["variable.parameter"],
+    enum: ["entity.name.type.enum"],
+    type: ["entity.name.type"],
+    macro: ["entity.name.function.preprocessor"],
+    inactive: ["comment.block.pawn"],
+  });
   assert.equal(
     manifest.contributes.configurationDefaults["[pawn]"]?.["editor.semanticHighlighting.enabled"],
     true,

@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.18.41",
+  "version": "0.18.42",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
@@ -96,6 +96,36 @@
     ],
     "semanticTokenTypes": [
       {
+        "id": "function",
+        "superType": "function",
+        "description": "A Pawn function, native, or callback."
+      },
+      {
+        "id": "variable",
+        "superType": "variable",
+        "description": "A Pawn variable or constant."
+      },
+      {
+        "id": "parameter",
+        "superType": "parameter",
+        "description": "A Pawn function parameter."
+      },
+      {
+        "id": "enum",
+        "superType": "type",
+        "description": "A Pawn enum value or declaration."
+      },
+      {
+        "id": "type",
+        "superType": "type",
+        "description": "A Pawn tag or type."
+      },
+      {
+        "id": "macro",
+        "superType": "macro",
+        "description": "A Pawn preprocessor macro."
+      },
+      {
         "id": "inactive",
         "superType": "comment",
         "description": "Code excluded by a preprocessor condition."
@@ -105,6 +135,24 @@
       {
         "language": "pawn",
         "scopes": {
+          "function": [
+            "entity.name.function"
+          ],
+          "variable": [
+            "variable.other"
+          ],
+          "parameter": [
+            "variable.parameter"
+          ],
+          "enum": [
+            "entity.name.type.enum"
+          ],
+          "type": [
+            "entity.name.type"
+          ],
+          "macro": [
+            "entity.name.function.preprocessor"
+          ],
           "inactive": [
             "comment.block.pawn"
           ]

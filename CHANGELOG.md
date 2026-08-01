@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.42 - 2026-08-01
+
+- Map Pawn semantic tokens to standard VS Code scopes for steadier theme colors.
+
 ## 0.18.41 - 2026-08-01
 
 - Replace managed binaries transactionally so a failed update keeps the previous copy.
