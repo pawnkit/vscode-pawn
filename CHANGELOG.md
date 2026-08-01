@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.30 - 2026-08-01
+
+### Performance
+
+- Use the workspace-incremental toolchain with pawnlsp 0.33.81.
+
 ## 0.18.29 - 2026-08-01
 
 ### Performance
