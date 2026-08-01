@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.40 - 2026-08-01
+
+- Serialize managed tool installs and updates so concurrent commands cannot race.
+
 ## 0.18.39 - 2026-08-01
 
 - Improve highlighting for macro parameters, conditional defines, and enum names.

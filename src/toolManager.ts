@@ -4,6 +4,7 @@ import { chmod, mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
+import { InstallQueue } from "./installQueue";
 import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseDownloads, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 export interface ToolInstallHooks {
@@ -13,6 +14,7 @@ export interface ToolInstallHooks {
 
 export class ToolManager implements vscode.Disposable {
   private readonly installEmitter = new vscode.EventEmitter<string>();
+  private readonly installQueue = new InstallQueue();
   readonly onDidInstall = this.installEmitter.event;
 
   constructor(
@@ -164,12 +166,14 @@ export class ToolManager implements vscode.Disposable {
   }
 
   private async runInstall<T>(action: () => PromiseLike<T>): Promise<T> {
-    await this.installHooks.beforeInstall?.();
-    try {
-      return await action();
-    } finally {
-      await this.installHooks.afterInstall?.();
-    }
+    return this.installQueue.run(async () => {
+      await this.installHooks.beforeInstall?.();
+      try {
+        return await action();
+      } finally {
+        await this.installHooks.afterInstall?.();
+      }
+    });
   }
 }
 
