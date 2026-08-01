@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.18.23 - 2026-08-01
+
+### Fixed
+
+- Use conventional modifier scopes for Pawn declaration keywords.
+- Added tokenization coverage for directives, hooks, loops, functions, and
+  constants.
+- Use the signed August 1 toolchain set.
+- Update the CLI to v1.34.0, the linter to v1.8.10, and the language server
+  to v0.33.72.
+
 ## 0.18.22 - 2026-07-30
 
 - Use the signed July 30 toolchain set.

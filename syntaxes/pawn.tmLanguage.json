@@ -51,15 +51,23 @@
     },
     { "match": "\\bdefined\\b", "name": "keyword.control.directive.conditional.pawn" },
     { "match": "\\b(char|sizeof|tagof)\\b", "name": "keyword.operator.pawn" },
-    { "match": "\\b(automaton|const|enum|forward|hook|inline|native|new|operator|ptask|public|remote|static|stock|task|timer)\\b", "name": "storage.type.pawn" },
     {
-      "match": "^(\\s*)(?:(public|stock|static|native|forward|hook|inline|ptask|remote|task|timer)\\s+)?(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
+      "match": "^(\\s*)(public|stock|static|native|forward|hook|inline|ptask|remote|task|timer)\\s+(?:([A-Za-z_@][A-Za-z0-9_@]*):)?([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\()",
       "captures": {
-        "2": { "name": "storage.type.pawn" },
+        "2": { "name": "storage.modifier.pawn" },
         "3": { "name": "entity.name.type.tag.pawn" },
         "4": { "name": "entity.name.function.definition.pawn" }
       }
     },
+    {
+      "match": "^(\\s*)(?:([A-Za-z_@][A-Za-z0-9_@]*):)?(?!(?:assert|for|foreach|if|state|switch|while)\\b)([A-Za-z_@][A-Za-z0-9_@]*)(?=\\s*\\([^;]*\\)\\s*(?:\\{|$))",
+      "captures": {
+        "2": { "name": "entity.name.type.tag.pawn" },
+        "3": { "name": "entity.name.function.definition.pawn" }
+      }
+    },
+    { "match": "\\b(const|forward|hook|inline|native|ptask|public|remote|static|stock|task|timer)\\b", "name": "storage.modifier.pawn" },
+    { "match": "\\b(automaton|enum|new|operator)\\b", "name": "storage.type.pawn" },
     { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=:(?!:))", "name": "entity.name.type.tag.pawn" },
     { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=\\s*\\()", "name": "entity.name.function.pawn" },
     { "match": "\\b[A-Z][A-Z0-9_]{2,}\\b", "name": "constant.other.pawn" },
