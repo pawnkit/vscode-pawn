@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.24 - 2026-08-01
+
+### Performance
+
+- Use the signed toolchain with trivia-only incremental analysis improvements.
+- Update PawnKit CLI to v1.34.1, pawnlint to v1.8.11, and pawnlsp to v0.33.73.
+
 ## 0.18.23 - 2026-08-01
 
 ### Fixed
