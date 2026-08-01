@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.31 - 2026-08-01
+
+### Performance
+
+- Use the signed toolchain with pawnlint 1.8.18 and pawnlsp 0.33.82.
+
 ## 0.18.30 - 2026-08-01
 
 ### Performance
