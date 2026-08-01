@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.29 - 2026-08-01
+
+### Performance
+
+- Use the signed toolchain with the incremental pawnlsp 0.33.80 release.
+
 ## 0.18.28 - 2026-08-01
 
 ### Changed
