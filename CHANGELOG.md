@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.41 - 2026-08-01
+
+- Replace managed binaries transactionally so a failed update keeps the previous copy.
+
 ## 0.18.40 - 2026-08-01
 
 - Serialize managed tool installs and updates so concurrent commands cannot race.

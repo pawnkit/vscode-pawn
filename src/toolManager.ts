@@ -1,10 +1,11 @@
 import * as vscode from "vscode";
 import { existsSync } from "node:fs";
-import { chmod, mkdir, readdir, rename, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
 import { InstallQueue } from "./installQueue";
+import { replaceFile } from "./replaceFile";
 import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseDownloads, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
 export interface ToolInstallHooks {
@@ -156,8 +157,7 @@ export class ToolManager implements vscode.Disposable {
     await mkdir(dirname(destination), { recursive: true });
     await writeFile(temporary, executable, { mode: 0o755 });
     if (process.platform !== "win32") await chmod(temporary, 0o755);
-    await rm(destination, { force: true });
-    await rename(temporary, destination);
+    await replaceFile(destination, temporary);
     if (tool.binary === "pawntest") {
       await writeIncludes(dirname(destination), entries);
     }
