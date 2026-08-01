@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.25 - 2026-08-01
+
+### Performance
+
+- Use the signed toolchain with the latest linter and language server fixes.
+
 ## 0.18.24 - 2026-08-01
 
 ### Performance
