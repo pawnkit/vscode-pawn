@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.39 - 2026-08-01
+
+- Improve highlighting for macro parameters, conditional defines, and enum names.
+
 ## 0.18.38 - 2026-08-01
 
 - Add color decorators and picker support for Pawn hex values, including

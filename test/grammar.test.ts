@@ -56,7 +56,10 @@ test("representative Pawn syntax uses conventional scopes", async () => {
   expectScope("defined", "keyword.control.directive.conditional.pawn");
   expectScope("FEATURE_ENABLED", "entity.name.constant.preprocessor.pawn");
   expectScope("ACTIVE_COLOUR", "entity.name.constant.preprocessor.pawn");
+  expectScope("%value", "variable.parameter.macro.pawn");
+  expectScope("FEATURE_DISABLED", "entity.name.constant.preprocessor.pawn");
   expectScope("enum", "storage.type.pawn");
+  expectScope("PlayerState", "entity.name.type.enum.pawn");
   expectScope("hook", "storage.modifier.pawn");
   expectScope("OnGameModeInit", "entity.name.function.definition.pawn");
   expectScope("foreach", "keyword.control.pawn");

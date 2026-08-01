@@ -27,6 +27,20 @@
     },
     { "include": "#strings" },
     {
+      "begin": "^(\\s*)(#)\\s*(define)\\s+([A-Za-z_@][A-Za-z0-9_@]*)\\s*(?=\\()",
+      "beginCaptures": {
+        "2": { "name": "punctuation.definition.directive.pawn" },
+        "3": { "name": "keyword.control.directive.pawn" },
+        "4": { "name": "entity.name.function.preprocessor.pawn" }
+      },
+      "end": "\\)",
+      "endCaptures": { "0": { "name": "punctuation.definition.parameters.end.pawn" } },
+      "patterns": [
+        { "match": "\\(", "name": "punctuation.definition.parameters.begin.pawn" },
+        { "match": "%(?:[0-9]+|[A-Za-z_@][A-Za-z0-9_@]*)", "name": "variable.parameter.macro.pawn" }
+      ]
+    },
+    {
       "match": "^(\\s*)(#)\\s*(define)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
       "captures": {
         "2": { "name": "punctuation.definition.directive.pawn" },
@@ -44,6 +58,13 @@
     { "match": "\\b(assert|break|case|continue|default|do|else|exit|for|foreach|goto|if|return|sleep|state|switch|while)\\b", "name": "keyword.control.pawn" },
     {
       "match": "\\b(defined)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
+      "captures": {
+        "1": { "name": "keyword.control.directive.conditional.pawn" },
+        "2": { "name": "entity.name.constant.preprocessor.pawn" }
+      }
+    },
+    {
+      "match": "\\b(defined)\\s*\\(\\s*([A-Za-z_@][A-Za-z0-9_@]*)\\s*\\)",
       "captures": {
         "1": { "name": "keyword.control.directive.conditional.pawn" },
         "2": { "name": "entity.name.constant.preprocessor.pawn" }
@@ -67,6 +88,13 @@
       }
     },
     { "match": "\\b(const|forward|hook|inline|native|ptask|public|remote|static|stock|task|timer)\\b", "name": "storage.modifier.pawn" },
+    {
+      "match": "\\b(enum)\\s+([A-Za-z_@][A-Za-z0-9_@]*)",
+      "captures": {
+        "1": { "name": "storage.type.pawn" },
+        "2": { "name": "entity.name.type.enum.pawn" }
+      }
+    },
     { "match": "\\b(automaton|enum|new|operator)\\b", "name": "storage.type.pawn" },
     { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=:(?!:))", "name": "entity.name.type.tag.pawn" },
     { "match": "\\b[A-Za-z_@][A-Za-z0-9_@]*(?=\\s*\\()", "name": "entity.name.function.pawn" },
