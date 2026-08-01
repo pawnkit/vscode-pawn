@@ -7,6 +7,7 @@ import { ToolManager } from "./toolManager";
 import { ProjectHealth } from "./health";
 import { setupProject } from "./setup";
 import { EntryCodeLensProvider } from "./entryCodeLens";
+import { PawnColorProvider } from "./colorProvider";
 
 let languageClient: PawnLanguageClient | undefined;
 let pawnTests: PawnTests | undefined;
@@ -55,6 +56,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   context.subscriptions.push(vscode.languages.registerCodeLensProvider(
     { language: "pawn", scheme: "file" },
     new EntryCodeLensProvider()
+  ));
+  context.subscriptions.push(vscode.languages.registerColorProvider(
+    { language: "pawn", scheme: "file" },
+    new PawnColorProvider(),
   ));
   context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider("pawn", new PawnDebugProvider()));
   context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("pawn", new PawnDebugAdapterFactory(tools)));

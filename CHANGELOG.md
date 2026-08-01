@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.38 - 2026-08-01
+
+- Add color decorators and picker support for Pawn hex values, including
+  colors embedded in strings.
+
 ## 0.18.37 - 2026-08-01
 
 - Stop the running language server while managed tools are replaced, then start it again after the install completes.
