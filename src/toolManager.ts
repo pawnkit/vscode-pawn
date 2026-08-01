@@ -6,11 +6,20 @@ import AdmZip = require("adm-zip");
 import { executableName, resolveBinary } from "./binary";
 import { ArchiveEntry, bundledTools, expectedChecksum, extractTarGz, managedIncludeRoot, managedToolReady, releaseDownloads, sha256, tarGzEntries, ToolDefinition, tools } from "./tooling";
 
+export interface ToolInstallHooks {
+  beforeInstall?: () => Promise<void>;
+  afterInstall?: () => Promise<void>;
+}
+
 export class ToolManager implements vscode.Disposable {
   private readonly installEmitter = new vscode.EventEmitter<string>();
   readonly onDidInstall = this.installEmitter.event;
 
-  constructor(private readonly context: vscode.ExtensionContext, private readonly output: vscode.LogOutputChannel) {}
+  constructor(
+    private readonly context: vscode.ExtensionContext,
+    private readonly output: vscode.LogOutputChannel,
+    private readonly installHooks: ToolInstallHooks = {},
+  ) {}
 
   dispose(): void { this.installEmitter.dispose(); }
 
@@ -32,7 +41,7 @@ export class ToolManager implements vscode.Disposable {
       throw new Error(`${definition.label} is not installed.`);
     }
     if (choice !== "Install") throw new Error(`${definition.label} is not installed.`);
-    return this.install(definition);
+    return this.runInstall(() => this.install(definition));
   }
 
   async find(binary: string, configured: string | undefined, workspace: string | undefined): Promise<string | undefined> {
@@ -49,14 +58,17 @@ export class ToolManager implements vscode.Disposable {
       { canPickMany: true, placeHolder: "Choose PawnKit tools to install or update" }
     );
     if (!selected?.length) return;
-    await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: "Installing PawnKit tools" }, async (progress) => {
-      for (const [index, item] of selected.entries()) {
-        progress.report({ message: item.label, increment: 100 / selected.length });
-        await this.install(item.tool);
-        this.output.info(`Installed ${item.tool.binary} ${item.tool.version}`);
-        if (index === selected.length - 1) progress.report({ increment: 0 });
-      }
-    });
+    await this.runInstall(() => vscode.window.withProgress(
+      { location: vscode.ProgressLocation.Notification, title: "Installing PawnKit tools" },
+      async (progress) => {
+        for (const [index, item] of selected.entries()) {
+          progress.report({ message: item.label, increment: 100 / selected.length });
+          await this.install(item.tool);
+          this.output.info(`Installed ${item.tool.binary} ${item.tool.version}`);
+          if (index === selected.length - 1) progress.report({ increment: 0 });
+        }
+      },
+    ));
     void vscode.window.showInformationMessage("PawnKit tools are ready.");
   }
 
@@ -70,14 +82,17 @@ export class ToolManager implements vscode.Disposable {
     const names = updates.map((tool) => tool.label).join(", ");
     const choice = await vscode.window.showInformationMessage(`${names} ${updates.length === 1 ? "has" : "have"} an update available.`, "Update");
     if (choice !== "Update") return;
-    await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" }, async (progress) => {
-      for (const [index, tool] of updates.entries()) {
-        progress.report({ message: tool.label, increment: 100 / updates.length });
-        await this.install(tool);
-        this.output.info(`Installed ${tool.binary} ${tool.version}`);
-        if (index === updates.length - 1) progress.report({ increment: 0 });
-      }
-    });
+    await this.runInstall(() => vscode.window.withProgress(
+      { location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" },
+      async (progress) => {
+        for (const [index, tool] of updates.entries()) {
+          progress.report({ message: tool.label, increment: 100 / updates.length });
+          await this.install(tool);
+          this.output.info(`Installed ${tool.binary} ${tool.version}`);
+          if (index === updates.length - 1) progress.report({ increment: 0 });
+        }
+      },
+    ));
     void vscode.window.showInformationMessage("PawnKit tools are up to date.");
   }
 
@@ -146,6 +161,15 @@ export class ToolManager implements vscode.Disposable {
     }
     this.installEmitter.fire(tool.binary);
     return destination;
+  }
+
+  private async runInstall<T>(action: () => PromiseLike<T>): Promise<T> {
+    await this.installHooks.beforeInstall?.();
+    try {
+      return await action();
+    } finally {
+      await this.installHooks.afterInstall?.();
+    }
   }
 }
 

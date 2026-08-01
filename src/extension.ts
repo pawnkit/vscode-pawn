@@ -13,7 +13,18 @@ let pawnTests: PawnTests | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const output = vscode.window.createOutputChannel("PawnKit", { log: true });
-  const tools = new ToolManager(context, output);
+  let restartAfterInstall = false;
+  const tools = new ToolManager(context, output, {
+    beforeInstall: async () => {
+      restartAfterInstall = languageClient?.isRunning() ?? false;
+      if (restartAfterInstall) await languageClient!.stop();
+    },
+    afterInstall: async () => {
+      if (!restartAfterInstall || !languageClient) return;
+      restartAfterInstall = false;
+      await languageClient.start();
+    },
+  });
   const health = new ProjectHealth(tools);
   languageClient = new PawnLanguageClient(output, tools);
   context.subscriptions.push(output, tools, health, languageClient);

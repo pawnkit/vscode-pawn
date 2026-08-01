@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.37 - 2026-08-01
+
+- Stop the running language server while managed tools are replaced, then start it again after the install completes.
+
 ## 0.18.36 - 2026-08-01
 
 - Use the corrected signed toolchain with pawnlint 1.8.22 and pawnlsp 0.33.86.

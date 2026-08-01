@@ -54,6 +54,10 @@ export class PawnLanguageClient implements vscode.Disposable {
     this.status.hide();
   }
 
+  isRunning(): boolean {
+    return this.client?.state === State.Running;
+  }
+
   async restart(): Promise<void> {
     await this.stop();
     await this.start();
