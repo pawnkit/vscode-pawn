@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.45 - 2026-08-02
+
+- Make release asset uploads safe to retry when a release already exists.
+
 ## 0.18.44 - 2026-08-02
 
 - Use the August 2 signed toolchain for managed tools.

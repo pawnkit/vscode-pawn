@@ -27,7 +27,12 @@ jobs:
       - run: npm run package -- --out vscode-pawn.vsix
       - run: npm run verify-package -- vscode-pawn.vsix
       - run: sha256sum vscode-pawn.vsix > vscode-pawn.vsix.sha256
-      - run: gh release create "$GITHUB_REF_NAME" vscode-pawn.vsix vscode-pawn.vsix.sha256 --generate-notes
+      - name: Create or update release
+        run: |
+          if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" --generate-notes
+          fi
+          gh release upload "$GITHUB_REF_NAME" vscode-pawn.vsix vscode-pawn.vsix.sha256 --clobber
         env:
           GH_TOKEN: ${{ github.token }}
       - uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a
