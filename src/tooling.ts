@@ -27,7 +27,7 @@ export const tools: readonly ToolDefinition[] = [
   { binary: "pawnlsp", label: "Pawn language server", repository: "pawnlsp", version: managedVersions.pawnlsp },
   { binary: "pawn", label: "PawnKit CLI", repository: "pawnkit-cli", version: managedVersions.pawn },
   { binary: "pawntest", label: "Pawn test runner", repository: "pawntest", version: managedVersions.pawntest },
-  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.2" }
+  { binary: "pawndebug", label: "Pawn debugger", repository: "pawndebug", version: "v0.2.3" }
 ];
 
 export interface BundledToolDefinition {

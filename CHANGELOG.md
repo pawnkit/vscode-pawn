@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.43 - 2026-08-02
+
+- Update the managed debugger to `pawndebug v0.2.3`.
+
 ## 0.18.42 - 2026-08-01
 
 - Map Pawn semantic tokens to standard VS Code scopes for steadier theme colors.
