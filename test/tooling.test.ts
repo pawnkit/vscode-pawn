@@ -41,15 +41,15 @@ test("repairs pawntest when managed includes are missing", () => {
 });
 
 test("reports tools bundled with the language server", () => {
-  assert.equal(testedReleaseSet.id, "toolchain-signed-2026-08-02");
-  assert.equal(testedReleaseSet.url, "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-02.json");
-  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.34.8");
-  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.34.15");
-  assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.2.10");
+  assert.equal(testedReleaseSet.id, "toolchain-signed-2026-08-02-2");
+  assert.equal(testedReleaseSet.url, "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-02-2.json");
+  assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.34.9");
+  assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.34.17");
+  assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.2.11");
   assert.deepEqual(bundledTools.map(({ label, provider }) => [label, provider]), [
     ["Pawn formatter", "pawnlsp"],
     ["Pawn linter", "pawnlsp"]
   ]);
-  assert.equal(bundledTools.find(({ label }) => label === "Pawn formatter")?.version, "v1.4.7");
-  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.8.32");
+  assert.equal(bundledTools.find(({ label }) => label === "Pawn formatter")?.version, "v1.4.8");
+  assert.equal(bundledTools.find(({ label }) => label === "Pawn linter")?.version, "v1.8.34");
 });

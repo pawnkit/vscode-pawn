@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.46 - 2026-08-02
+
+- Use the latest signed PawnKit toolchain release set.
+
 ## 0.18.45 - 2026-08-02
 
 - Make release asset uploads safe to retry when a release already exists.
