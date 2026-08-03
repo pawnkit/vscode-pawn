@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.95 - 2026-08-04
+
+- Use signed toolchain set 46 with aligned release evidence.
+
 ## 0.18.94 - 2026-08-04
 
 - Use corrected signed toolchain set 45.
