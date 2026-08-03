@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.48 - 2026-08-03
+
+- Use the signed August 3 toolchain set with pawnlsp 0.34.11.
+
 ## 0.18.47 - 2026-08-03
 
 - Use the August 3 signed toolchain release set.
