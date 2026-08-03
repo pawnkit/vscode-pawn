@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.65 - 2026-08-03
+
+- Use corrected signed toolchain set 19.
+
 ## 0.18.64 - 2026-08-03
 
 - Use signed toolchain set 18 with pawnkit-cli 1.34.26 and pawnlsp 0.34.25.
