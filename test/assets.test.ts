@@ -56,7 +56,7 @@ test("inactive code has a semantic fallback", () => {
     enum: ["entity.name.type.enum"],
     type: ["entity.name.type"],
     macro: ["entity.name.function.preprocessor"],
-    inactive: ["comment.block.pawn"],
+    inactive: ["comment"],
   });
   assert.equal(
     manifest.contributes.configurationDefaults["[pawn]"]?.["editor.semanticHighlighting.enabled"],

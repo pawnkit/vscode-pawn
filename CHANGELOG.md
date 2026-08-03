@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.92 - 2026-08-04
+
+- Use the editor's muted comment styling for inactive Pawn code.
+
 ## 0.18.91 - 2026-08-04
 
 - Use signed toolchain set 43 with the current CLI, linter, and language
