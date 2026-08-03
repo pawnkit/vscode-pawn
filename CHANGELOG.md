@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.83 - 2026-08-03
+
+- Update CI actions to current Node 24-compatible releases.
+
 ## 0.18.82 - 2026-08-03
 
 - Keep declined update prompts suppressed while allowing failed updates to retry.
