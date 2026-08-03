@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.81 - 2026-08-03
+
+- Offer retry and output actions when a background tool update fails.
+
 ## 0.18.80 - 2026-08-03
 
 - Retry managed-tool updates after a failed install.

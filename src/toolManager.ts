@@ -84,18 +84,29 @@ export class ToolManager implements vscode.Disposable {
     const names = updates.map((tool) => tool.label).join(", ");
     const choice = await vscode.window.showInformationMessage(`${names} ${updates.length === 1 ? "has" : "have"} an update available.`, "Update");
     if (choice !== "Update") return;
-    await this.runInstall(() => vscode.window.withProgress(
-      { location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" },
-      async (progress) => {
-        for (const [index, tool] of updates.entries()) {
-          progress.report({ message: tool.label, increment: 100 / updates.length });
-          await this.install(tool);
-          this.output.info(`Installed ${tool.binary} ${tool.version}`);
-          if (index === updates.length - 1) progress.report({ increment: 0 });
-        }
-      },
-    ));
-    // Retry failed updates on the next activation.
+    try {
+      await this.runInstall(() => vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" },
+        async (progress) => {
+          for (const [index, tool] of updates.entries()) {
+            progress.report({ message: tool.label, increment: 100 / updates.length });
+            await this.install(tool);
+            this.output.info(`Installed ${tool.binary} ${tool.version}`);
+            if (index === updates.length - 1) progress.report({ increment: 0 });
+          }
+        },
+      ));
+    } catch (error) {
+      const retry = await vscode.window.showErrorMessage(
+        `PawnKit tool update failed: ${String(error)}`,
+        "Retry",
+        "Show Output",
+      );
+      if (retry === "Retry") return this.promptForUpdates();
+      if (retry === "Show Output") this.output.show();
+      return;
+    }
+    // Suppress the same update prompt after success.
     await this.context.globalState.update(key, true);
     void vscode.window.showInformationMessage("PawnKit tools are up to date.");
   }
