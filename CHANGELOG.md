@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.51 - 2026-08-03
+
+### Changed
+
+- Use the signed 2026-08-03-5 release set with pawn-analysis v0.30.15 and
+  pawnlsp v0.34.14.
+
 ## 0.18.50 - 2026-08-03
 
 ### Changed
