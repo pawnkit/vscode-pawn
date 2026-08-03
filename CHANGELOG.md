@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.80 - 2026-08-03
+
+- Retry managed-tool updates after a failed install.
+- Show a useful error when tool installation fails.
+
 ## 0.18.79 - 2026-08-03
 
 - Use signed toolchain set 35 with pawnlsp v0.34.37.

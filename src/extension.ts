@@ -63,7 +63,14 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   ));
   context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider("pawn", new PawnDebugProvider()));
   context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory("pawn", new PawnDebugAdapterFactory(tools)));
-  context.subscriptions.push(vscode.commands.registerCommand("pawn.installTools", () => tools.chooseAndInstall()));
+  context.subscriptions.push(vscode.commands.registerCommand("pawn.installTools", async () => {
+    try {
+      await tools.chooseAndInstall();
+    } catch (error) {
+      const choice = await vscode.window.showErrorMessage(`PawnKit tool installation failed: ${String(error)}`, "Show Output");
+      if (choice === "Show Output") output.show();
+    }
+  }));
   context.subscriptions.push(vscode.commands.registerCommand("pawn.showToolVersions", () => tools.showVersions()));
   registerToolCommands(context, tools);
   const startTrustedFeatures = async (): Promise<void> => {

@@ -81,7 +81,6 @@ export class ToolManager implements vscode.Disposable {
     if (updates.length === 0) return;
     const key = `managed-update:${updates.map((tool) => `${tool.binary}@${tool.version}`).join(",")}`;
     if (this.context.globalState.get<boolean>(key)) return;
-    await this.context.globalState.update(key, true);
     const names = updates.map((tool) => tool.label).join(", ");
     const choice = await vscode.window.showInformationMessage(`${names} ${updates.length === 1 ? "has" : "have"} an update available.`, "Update");
     if (choice !== "Update") return;
@@ -96,6 +95,8 @@ export class ToolManager implements vscode.Disposable {
         }
       },
     ));
+    // Retry failed updates on the next activation.
+    await this.context.globalState.update(key, true);
     void vscode.window.showInformationMessage("PawnKit tools are up to date.");
   }
 
