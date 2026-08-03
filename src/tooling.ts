@@ -10,13 +10,13 @@ export interface ToolDefinition {
 }
 
 export const testedReleaseSet = {
-  id: "toolchain-signed-2026-08-03-5",
-  url: "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-03-5.json",
+  id: "toolchain-signed-2026-08-03-6",
+  url: "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-03-6.json",
   versions: {
-    pawn: "v1.34.19",
+    pawn: "v1.34.20",
     pawnfmt: "v1.4.9",
-    pawnlint: "v1.8.36",
-    pawnlsp: "v0.34.14",
+    pawnlint: "v1.8.37",
+    pawnlsp: "v0.34.15",
     pawntest: "v1.2.11"
   }
 } as const;

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.52 - 2026-08-03
+
+### Changed
+
+- Use toolchain-signed-2026-08-03-6 with the latest CLI, linter, and language
+  server releases.
+
 ## 0.18.51 - 2026-08-03
 
 ### Changed
