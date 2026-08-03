@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.66 - 2026-08-03
+
+- Use signed toolchain set 20 with the incremental language-server cache.
+
 ## 0.18.65 - 2026-08-03
 
 - Use corrected signed toolchain set 19.
