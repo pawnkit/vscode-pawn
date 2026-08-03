@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.63 - 2026-08-03
+
+- Use corrected tested toolchain set 17.
+
 ## 0.18.62 - 2026-08-03
 
 - Use tested toolchain set 16 with pawnkit-cli 1.34.25.
