@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.88 - 2026-08-03
+
+- Refresh npm dependencies to clear the release audit vulnerabilities.
+
 ## 0.18.87 - 2026-08-03
 
 - Use signed toolchain set 39 with the latest CLI, linter, and language server.
