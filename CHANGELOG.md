@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.91 - 2026-08-04
+
+- Use signed toolchain set 43 with the current CLI, linter, and language
+  server releases.
+
 ## 0.18.90 - 2026-08-03
 
 - Use corrected signed toolchain set 41.
