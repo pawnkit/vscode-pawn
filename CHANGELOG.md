@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.85 - 2026-08-03
+
+- Use signed toolchain set 36 with the latest CLI, language server, and test
+  runner releases.
+
 ## 0.18.84 - 2026-08-03
 
 - Update the packaging dependency lockfile to include the latest security fix.
