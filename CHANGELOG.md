@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.55 - 2026-08-03
+
+### Changed
+
+- Use toolchain-signed-2026-08-03-9 with pawnlsp v0.34.18.
+
 ## 0.18.54 - 2026-08-03
 
 ### Changed

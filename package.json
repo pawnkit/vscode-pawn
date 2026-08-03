@@ -2,7 +2,7 @@
   "name": "vscode-pawn",
   "displayName": "PawnKit",
   "description": "VS Code client for the PawnKit toolchain",
-  "version": "0.18.54",
+  "version": "0.18.55",
   "publisher": "pawnkit",
   "preview": true,
   "license": "MIT",
