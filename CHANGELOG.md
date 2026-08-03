@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.47 - 2026-08-03
+
+- Use the August 3 signed toolchain release set.
+
 ## 0.18.46 - 2026-08-02
 
 - Use the latest signed PawnKit toolchain release set.
