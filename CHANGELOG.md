@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.50 - 2026-08-03
+
+### Changed
+
+- Use the signed 2026-08-03-4 release set with pawnlsp v0.34.13.
+
 ## 0.18.49 - 2026-08-03
 
 ### Changed
