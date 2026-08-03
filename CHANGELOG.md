@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.70 - 2026-08-03
+
+- Use corrected signed toolchain set 24.
+
 ## 0.18.69 - 2026-08-03
 
 - Use signed toolchain set 23 with pawnlint 1.8.46 and pawnlsp 0.34.29.
