@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.54 - 2026-08-03
+
+### Changed
+
+- Use toolchain-signed-2026-08-03-8 with the latest language server release.
+
 ## 0.18.53 - 2026-08-03
 
 ### Changed
