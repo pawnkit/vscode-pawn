@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.49 - 2026-08-03
+
+### Changed
+
+- Use the signed 2026-08-03-3 release set for managed tools.
+
 ## 0.18.48 - 2026-08-03
 
 - Use the signed August 3 toolchain set with pawnlsp 0.34.11.
