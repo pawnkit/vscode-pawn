@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.94 - 2026-08-04
+
+- Use corrected signed toolchain set 45.
+
 ## 0.18.93 - 2026-08-04
 
 - Use signed toolchain set 44 with pawnlsp v0.34.47.
