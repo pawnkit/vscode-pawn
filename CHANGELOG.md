@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.82 - 2026-08-03
+
+- Keep declined update prompts suppressed while allowing failed updates to retry.
+
 ## 0.18.81 - 2026-08-03
 
 - Offer retry and output actions when a background tool update fails.

@@ -83,7 +83,10 @@ export class ToolManager implements vscode.Disposable {
     if (this.context.globalState.get<boolean>(key)) return;
     const names = updates.map((tool) => tool.label).join(", ");
     const choice = await vscode.window.showInformationMessage(`${names} ${updates.length === 1 ? "has" : "have"} an update available.`, "Update");
-    if (choice !== "Update") return;
+    if (choice !== "Update") {
+      await this.context.globalState.update(key, true);
+      return;
+    }
     try {
       await this.runInstall(() => vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title: "Updating PawnKit tools" },
