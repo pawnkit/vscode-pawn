@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.84 - 2026-08-03
+
+- Update the packaging dependency lockfile to include the latest security fix.
+
 ## 0.18.83 - 2026-08-03
 
 - Update CI actions to current Node 24-compatible releases.
