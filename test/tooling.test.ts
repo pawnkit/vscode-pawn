@@ -41,8 +41,8 @@ test("repairs pawntest when managed includes are missing", () => {
 });
 
 test("reports tools bundled with the language server", () => {
-	assert.equal(testedReleaseSet.id, "toolchain-signed-2026-08-03-29");
-	assert.equal(testedReleaseSet.url, "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-03-29.json");
+	assert.equal(testedReleaseSet.id, "toolchain-signed-2026-08-03-30");
+	assert.equal(testedReleaseSet.url, "https://pawnkit.dev/release-sets/toolchain-signed-2026-08-03-30.json");
 	assert.equal(tools.find(({ binary }) => binary === "pawnlsp")?.version, "v0.34.33");
 	assert.equal(tools.find(({ binary }) => binary === "pawn")?.version, "v1.34.26");
   assert.equal(tools.find(({ binary }) => binary === "pawntest")?.version, "v1.2.11");
