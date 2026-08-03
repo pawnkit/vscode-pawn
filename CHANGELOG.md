@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.59 - 2026-08-03
+
+### Changed
+
+- Use toolchain-signed-2026-08-03-13 with pawn 1.34.24, pawnlint 1.8.41,
+  and pawnlsp 0.34.23.
+
 ## 0.18.58 - 2026-08-03
 
 ### Changed
